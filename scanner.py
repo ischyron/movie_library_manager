@@ -124,8 +124,9 @@ def scan_library(
 
         # compute direct non-zero video presence for current directory
         nonzero_vids = [p for p in vids if p.stat().st_size > 0]
-        # only movie-named folders count as ancestor blockers, and not collection containers
-        has_nonzero_video[d] = (len(nonzero_vids) > 0) and is_movie_dir and (not is_collection_container)
+        # treat any folder with non-zero videos as a movie folder for ancestor blocking
+        # (but do not propagate from collection containers)
+        has_nonzero_video[d] = (len(nonzero_vids) > 0) and (not is_collection_container)
         # compute ancestor_has_video by inheriting from parent
         parent = d.parent if d != root else None
         ancestor_has_video[d] = False
@@ -136,9 +137,9 @@ def scan_library(
         has_child_dirs = len(child_dirs) > 0
         if not has_child_dirs:
             if len(nonzero_vids) == 0:
-                # Skip accessory subdirs under a movie-named parent folder
+                # Skip accessory subdirs under a parent folder that already has a movie file
                 parent = d.parent
-                if parent and _looks_like_movie_dir(parent.name):
+                if parent and has_nonzero_video.get(parent, False):
                     # Only consider the movie folder itself, not its children
                     pass
                 else:
@@ -173,21 +174,36 @@ def scan_library(
                         VideoEntry(path=v, size_bytes=size, reason=";".join(reason_parts), tokens_matched=lowq)
                     )
 
+    # Aggregate low-quality entries by movie folder (one folder = one movie)
+    by_folder: Dict[Path, VideoEntry] = {}
+    tokens_by_folder: Dict[Path, Set[str]] = {}
+    count_by_folder: Dict[Path, int] = {}
+    for entry in lowq_rows:
+        folder = entry.path.parent
+        count_by_folder[folder] = count_by_folder.get(folder, 0) + 1
+        tokset = tokens_by_folder.setdefault(folder, set())
+        tokset.update(entry.tokens_matched)
+        current = by_folder.get(folder)
+        if current is None or entry.size_bytes < current.size_bytes:
+            by_folder[folder] = entry
+
     # Write CSVs
     lowq_csv = out_dir / "low_quality_movies.csv"
     with lowq_csv.open("w", newline="") as f:
         w = csv.writer(f)
-        w.writerow(["path", "size_bytes", "size_mib", "reason", "tokens", "title", "year"])
-        for row in lowq_rows:
-            title, year = _parse_title_year_from_path(row.path)
+        w.writerow(["folder_path", "rep_video_path", "size_bytes", "size_mib", "reason", "tokens", "title", "year", "flagged_count"])
+        for folder, rep in sorted(by_folder.items(), key=lambda kv: str(kv[0]).lower()):
+            title, year = _parse_title_year_from_path(rep.path)
             w.writerow([
-                str(row.path),
-                row.size_bytes,
-                f"{row.size_mib:.2f}",
-                row.reason,
-                "|".join(row.tokens_matched),
+                str(folder),
+                str(rep.path),
+                rep.size_bytes,
+                f"{rep.size_mib:.2f}",
+                rep.reason,
+                "|".join(sorted(tokens_by_folder.get(folder, set()))),
                 title,
                 year if year is not None else "",
+                count_by_folder.get(folder, 1),
             ])
 
     lost_csv = out_dir / "lost_movies.csv"
