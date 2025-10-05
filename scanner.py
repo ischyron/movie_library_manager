@@ -5,10 +5,20 @@ import os
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable, List, Set, Tuple
+from typing import Iterable, List, Optional, Set, Tuple
 
 
 GOOD_TITLE_RE = re.compile(r"^(?P<title>.+?)\s*\((?P<year>\d{4})\)")
+
+# Built-in default ignore list (case-insensitive basenames)
+DEFAULT_IGNORE_DIRS: Set[str] = {
+    "subs", "subtitles", "sub", "subtitle",
+    "sample", "samples", "extras", "featurettes", "trailers",
+    "art", "artwork", "posters", "covers", "metadata",
+    ".appledouble", ".ds_store", "@eadir", "recycle.bin", "lost+found",
+    "plex versions", "plex versions (optimized)",
+    ".actors", "other",
+}
 
 
 @dataclass
@@ -23,7 +33,9 @@ class VideoEntry:
         return self.size_bytes / (1024 * 1024)
 
 
-def _iter_dirs(root: Path, ignore_dirs: Set[str]) -> Iterable[Path]:
+def _iter_dirs(root: Path, ignore_dirs: Optional[Set[str]] = None) -> Iterable[Path]:
+    if ignore_dirs is None:
+        ignore_dirs = DEFAULT_IGNORE_DIRS
     for dirpath, dirnames, filenames in os.walk(root):
         # prune ignored dirs (case-insensitive match against basename)
         pruned = []
@@ -78,7 +90,7 @@ def scan_library(
     lowq_tokens: List[str],
     video_exts: List[str],
     subtitle_exts: List[str],
-    ignore_dirs: List[str],
+    ignore_dirs: Optional[List[str]] = None,
 ) -> None:
     root = root.expanduser().resolve()
     out_dir = out_dir.expanduser().resolve()
@@ -86,7 +98,7 @@ def scan_library(
 
     vexts = set(e.lower() for e in video_exts)
     sexts = set(e.lower() for e in subtitle_exts)
-    ignores = set(d.lower() for d in ignore_dirs)
+    ignores = set(d.lower() for d in ignore_dirs) if ignore_dirs else None
 
     lowq_rows: List[VideoEntry] = []
     lost_rows: List[Tuple[Path, str, int, int]] = []  # (folder, reason, file_count, video_count)
@@ -167,4 +179,3 @@ def scan_library(
 
     print(f"Wrote {lowq_csv}")
     print(f"Wrote {lost_csv}")
-

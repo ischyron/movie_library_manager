@@ -52,8 +52,8 @@ def build_parser() -> argparse.ArgumentParser:
     )
     sp.add_argument(
         "--ignore-dirs",
-        default="subs,subtitles,sample,samples,extras,featurettes,trailers,art,artwork,posters,covers,metadata,.AppleDouble,.DS_Store,@eaDir,recycle.bin,lost+found,plex versions,.actors,other",
-        help="Comma-separated directory names to ignore (case-insensitive)",
+        default="",
+        help="Optional comma-separated dir names to ignore (overrides built-in defaults)",
     )
 
     # yts command
@@ -87,7 +87,7 @@ def main(argv=None) -> int:
             lowq_tokens=[t.strip() for t in args.lowq_tokens.split(",") if t.strip()],
             video_exts=[e.strip().lower() for e in args.video_exts.split(",") if e.strip()],
             subtitle_exts=[e.strip().lower() for e in args.subtitle_exts.split(",") if e.strip()],
-            ignore_dirs=[d.strip().lower() for d in args.ignore_dirs.split(",") if d.strip()],
+            ignore_dirs=[d.strip().lower() for d in args.ignore_dirs.split(",") if d.strip()] or None,
         )
         return 0
 
