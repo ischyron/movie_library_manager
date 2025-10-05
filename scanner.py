@@ -32,9 +32,11 @@ def _iter_dirs(root: Path, ignore_dirs: Optional[Set[str]] = None) -> Iterable[P
     if ignore_dirs is None:
         ignore_dirs = DEFAULT_IGNORE_DIRS
     for dirpath, dirnames, filenames in os.walk(root):
-        # prune ignored dirs (case-insensitive match against basename)
+        # prune ignored + dot directories
         pruned = []
         for d in list(dirnames):
+            if d.startswith('.'):
+                continue
             if d.lower() in ignore_dirs:
                 continue
             pruned.append(d)
@@ -75,6 +77,10 @@ def _parse_title_year_from_path(path: Path) -> Tuple[str, int | None]:
     title = re.sub(r"\b(720p|1024p|1080p|1440p|2160p|4K|UHD|REMUX|BluRay|WEBRip|WEB-DL|HDR)\b", "", title, flags=re.I)
     title = re.sub(r"\s{2,}", " ", title).strip()
     return title, None
+
+
+def _looks_like_movie_dir(name: str) -> bool:
+    return GOOD_TITLE_RE.match(name) is not None
 
 
 def scan_library(
@@ -124,10 +130,16 @@ def scan_library(
         has_child_dirs = any(c.is_dir() for c in d.iterdir())
         if not has_child_dirs:
             if len(nonzero_vids) == 0:
-                # Skip if any ancestor directory already contains a valid video
-                if not ancestor_has_video.get(d, False):
-                    reason = "no_videos" if len(vids) == 0 else "zero_byte_videos_only"
-                    lost_rows.append((d, reason, len(files), len(vids)))
+                # Skip accessory subdirs under a movie-named parent folder
+                parent = d.parent
+                if parent and _looks_like_movie_dir(parent.name):
+                    # Only consider the movie folder itself, not its children
+                    pass
+                else:
+                    # Skip if any ancestor directory already contains a valid video
+                    if not ancestor_has_video.get(d, False):
+                        reason = "no_videos" if len(vids) == 0 else "zero_byte_videos_only"
+                        lost_rows.append((d, reason, len(files), len(vids)))
 
         # flag low-quality videos in any folder
         for v in vids:
