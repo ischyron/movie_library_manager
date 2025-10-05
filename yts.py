@@ -242,30 +242,12 @@ def yts_lookup_from_csv(
         except Exception as e:
             if verbose:
                 print(f"{RED}[yts] ERROR item failed: src='{src}' err={e}{RESET}")
-            if in_place and w_out is not None and f_out is not None:
-                w_out.writerow([row.get(k, "") for k in orig_header] + ["", "", "", "", "", ""])
-                f_out.flush()
-                try:
-                    os.fsync(f_out.fileno())
-                except Exception:
-                    pass
-            else:
-                out_rows.append([src, "", "", "", "", "", ""])  # keep placeholder row (7 cols)
-            return
+            return [src, "", "", "", "", "", ""]
 
         if match is None:
             if verbose:
                 print(f"{RED}[yts] no match: title='{title}' year='{year or ''}'{RESET}")
-            if in_place and w_out is not None and f_out is not None:
-                w_out.writerow([row.get(k, "") for k in orig_header] + ["", "", "", "", "", ""])
-                f_out.flush()
-                try:
-                    os.fsync(f_out.fileno())
-                except Exception:
-                    pass
-            else:
-                out_rows.append([src, "", "", "", "", "", ""])  # no results (7 cols)
-            return
+            return [src, "", "", "", "", "", ""]
 
         kept_q: List[str] = []
         kept_mag: List[str] = []
