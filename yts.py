@@ -362,12 +362,3 @@ def yts_lookup_from_csv(
                 pass
 
     print(f"Updated {input_csv}")
-    else:
-        # Write separate output CSV
-        header = ["source_path", "yts_title", "yts_year", "yts_url", "yts_quality_available", "yts_next_quality", "magnet"]
-        with output_csv.open("w", newline="") as f:
-            w = csv.writer(f)
-            w.writerow(header)
-            for r in out_rows:
-                w.writerow(r)
-        print(f"Wrote {output_csv}")
