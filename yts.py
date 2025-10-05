@@ -6,7 +6,8 @@ import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional, Tuple
+from typing import Dict, Iterable, List, Optional, Tuple, Set
+import os
 import difflib
 import csv as _csv
 from tempfile import NamedTemporaryFile
@@ -219,6 +220,53 @@ def yts_lookup_from_csv(
         return row, _best_match(movies, title, y)
 
     out_rows: List[List[str]] = []
+    # In-place streaming setup
+    w_out = None
+    f_out = None
+    tmp_path: Optional[Path] = None
+    orig_header: List[str] = []
+    add_cols = ["yts_title", "yts_year", "yts_url", "yts_quality_available", "yts_next_quality", "magnet"]
+    processed_src: Set[str] = set()
+    if in_place:
+        tmp_path = input_csv.with_suffix(input_csv.suffix + ".yts.tmp")
+        orig_header = (rows and list(rows[0].keys())) or []
+        append_mode = False
+        if tmp_path.exists():
+            with tmp_path.open() as f:
+                rdr = _csv.reader(f)
+                try:
+                    tmp_header = next(rdr)
+                except StopIteration:
+                    tmp_header = []
+                # try to find source column index
+                try_cols = ["folder_path", "path", "source_path"]
+                src_idx = -1
+                for name in try_cols:
+                    if name in tmp_header:
+                        src_idx = tmp_header.index(name)
+                        break
+                if src_idx == -1 and orig_header and tmp_header[: len(orig_header)] == orig_header:
+                    if "folder_path" in orig_header:
+                        src_idx = orig_header.index("folder_path")
+                    elif "path" in orig_header:
+                        src_idx = orig_header.index("path")
+                    else:
+                        src_idx = 0
+                elif src_idx == -1:
+                    src_idx = 0
+                for row_tmp in rdr:
+                    if row_tmp:
+                        processed_src.add(row_tmp[src_idx])
+            append_mode = True
+        f_out = tmp_path.open("a" if append_mode else "w", newline="")
+        w_out = _csv.writer(f_out)
+        if not append_mode:
+            w_out.writerow(orig_header + add_cols)
+            f_out.flush()
+            try:
+                os.fsync(f_out.fileno())
+            except Exception:
+                pass
 
     def process_one(row: Dict[str, str]) -> None:
         title = (row.get("title") or row.get("title_guess") or row.get("folder_path") or "").split("/")[-1].strip()
@@ -227,18 +275,38 @@ def yts_lookup_from_csv(
         cur_rank = _detect_current_quality(src)
         if verbose:
             print(f"[yts] item: src='{src}' title='{title}' year='{year or ''}' cur_rank={cur_rank}")
+        if in_place and src and src in processed_src:
+            if verbose:
+                print(f"[yts] skip (already processed): '{src}'")
+            return
         try:
             _, match = task(row)
         except Exception as e:
             if verbose:
                 print(f"{RED}[yts] ERROR item failed: src='{src}' err={e}{RESET}")
-            out_rows.append([src, "", "", "", "", "", ""])  # keep placeholder row (7 cols)
+            if in_place and w_out is not None and f_out is not None:
+                w_out.writerow([row.get(k, "") for k in orig_header] + ["", "", "", "", "", ""])
+                f_out.flush()
+                try:
+                    os.fsync(f_out.fileno())
+                except Exception:
+                    pass
+            else:
+                out_rows.append([src, "", "", "", "", "", ""])  # keep placeholder row (7 cols)
             return
 
         if match is None:
             if verbose:
                 print(f"{RED}[yts] no match: title='{title}' year='{year or ''}'{RESET}")
-            out_rows.append([src, "", "", "", "", "", ""])  # no results (7 cols)
+            if in_place and w_out is not None and f_out is not None:
+                w_out.writerow([row.get(k, "") for k in orig_header] + ["", "", "", "", "", ""])
+                f_out.flush()
+                try:
+                    os.fsync(f_out.fileno())
+                except Exception:
+                    pass
+            else:
+                out_rows.append([src, "", "", "", "", "", ""])  # no results (7 cols)
             return
 
         kept_q: List[str] = []
@@ -263,7 +331,7 @@ def yts_lookup_from_csv(
             if len(kept_q) > 0:
                 print(f"[yts] kept_qualities: {sorted(set(kept_q))}")
 
-        out_rows.append([
+        combined = [
             src,
             match.title,
             str(match.year),
@@ -271,13 +339,32 @@ def yts_lookup_from_csv(
             "|".join(sorted(set(all_q))),  # yts_quality_available (all qualities)
             next_q,
             next_mag,
-        ])
+        ]
+        if in_place and w_out is not None and f_out is not None:
+            w_out.writerow([row.get(k, "") for k in orig_header] + combined[1:])
+            f_out.flush()
+            try:
+                os.fsync(f_out.fileno())
+            except Exception:
+                pass
+        else:
+            out_rows.append(combined)
 
-    if max(1, concurrency) == 1:
+    eff_conc = 1 if in_place else max(1, concurrency)
+    if eff_conc == 1:
         for row in rows:
-            process_one(row)
+            try:
+                process_one(row)
+            except KeyboardInterrupt:
+                if in_place and verbose and tmp_path is not None:
+                    print(f"[yts] interrupted; partial results saved to {tmp_path}")
+                try:
+                    f_out and f_out.close()
+                except Exception:
+                    pass
+                raise
     else:
-        with ThreadPoolExecutor(max_workers=max(1, concurrency)) as ex:
+        with ThreadPoolExecutor(max_workers=eff_conc) as ex:
             futs = [ex.submit(process_one, row) for row in rows]
             for fut in as_completed(futs):
                 try:
@@ -287,38 +374,22 @@ def yts_lookup_from_csv(
                         print(f"{RED}[yts] task error: {e}{RESET}")
 
     if in_place:
-        # Merge columns into the input CSV by matching path/folder_path
-        # Build a lookup from source_path to result row
-        by_src: Dict[str, List[str]] = {r[0]: r for r in out_rows}
-        with input_csv.open() as f_in:
-            reader = _csv.DictReader(f_in)
-            fieldnames = reader.fieldnames or []
-            add_cols = ["yts_title", "yts_year", "yts_url", "qualities", "magnets"]
-            new_fields = fieldnames + [c for c in add_cols if c not in fieldnames]
-            tmp = NamedTemporaryFile("w", delete=False, dir=str(input_csv.parent), newline="")
-            try:
-                w = _csv.DictWriter(tmp, fieldnames=new_fields)
-                w.writeheader()
-                f_in.seek(0)
-                next(f_in)  # skip header
-                for row in _csv.reader(f_in):
-                    pass
-            finally:
-                tmp.close()
-            # Re-read to actually emit rows preserving order
-        # Simpler: iterate original rows list
-        tmp_path = input_csv.with_suffix(input_csv.suffix + ".tmp")
-        with tmp_path.open("w", newline="") as f_out:
-            w = _csv.writer(f_out)
-            header = (rows and list(rows[0].keys())) or []
-            add_cols = ["yts_title", "yts_year", "yts_url", "yts_quality_available", "yts_next_quality", "magnet"]
-            w.writerow(header + add_cols)
-            for row in rows:
-                src = row.get("path") or row.get("folder_path") or ""
-                res = by_src.get(src, ["", "", "", "", "", "", ""])
-                w.writerow([row.get(k, "") for k in header] + res[1:])
-        tmp_path.replace(input_csv)
-        print(f"Updated {input_csv}")
+        # Finalize streaming file: if complete, replace original; else leave for resume
+        try:
+            f_out and f_out.close()
+        except Exception:
+            pass
+        try:
+            if tmp_path and tmp_path.exists():
+                with tmp_path.open() as f:
+                    n = sum(1 for _ in f) - 1
+                if n >= len(rows):
+                    tmp_path.replace(input_csv)
+                    print(f"Updated {input_csv}")
+                else:
+                    print(f"[yts] partial written to {tmp_path} ({n}/{len(rows)}) — re-run to resume")
+        except Exception:
+            pass
     else:
         # Write separate output CSV
         header = ["source_path", "yts_title", "yts_year", "yts_url", "yts_quality_available", "yts_next_quality", "magnet"]
