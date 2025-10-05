@@ -20,13 +20,16 @@ Heuristics (defaults; configurable via flags)
 
 CLI
 - Scan:
-  - python -m media_hygiene scan --root "/Volumes/Extreme SSD/Movies"
+  - python -m cli scan --root "/Volumes/Extreme SSD/Movies"
   - Options: --out-dir, --tiny-mib, --good-tokens, --lowq-tokens, --video-exts, --ignore-dirs
 - YTS lookup for flagged items:
-  - python -m media_hygiene yts --from-csv low_quality_movies.csv --out yts_lowq.csv
-  - python -m media_hygiene yts --from-csv lost_movies.csv --lost --out yts_missing.csv
+  - python -m cli yts --from-csv low_quality_movies.csv --out yts_lowq.csv
+  - python -m cli yts --from-csv lost_movies.csv --lost --out yts_missing.csv
 
 Notes
 - No downloading or piracy; this tool only analyzes local metadata and queries YTS for available release qualities.
 - Parsing of titles/years uses simple patterns from folder/file names (e.g., "Movie Name (2012)"), and falls back to a fuzzy search via YTS query_term.
 
+
+Installed entry point
+- After installing via pip, the command `media-hygiene` runs the same CLI.
