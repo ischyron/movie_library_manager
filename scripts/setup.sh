@@ -115,24 +115,12 @@ set -e
 VENV_BIN_DIR="$(cd -- "$(dirname -- "$0")" && pwd -P)"
 PY="$VENV_BIN_DIR/python"
 if [ "$1" = "yts" ]; then
-  ARGS=()
-  have_out=0
-  have_inplace=0
+  ARGS=("$@")
   have_seq=0
   for a in "$@"; do
-    case "$a" in
-      --out) have_out=1 ;;
-      --in-place) have_inplace=1 ;;
-      --sequential) have_seq=1 ;;
-    esac
-    ARGS+=("$a")
+    [ "$a" = "--sequential" ] && have_seq=1 && break
   done
-  if [ $have_out -eq 0 ] && [ $have_inplace -eq 0 ]; then
-    ARGS=(yts --in-place "${ARGS[@]:1}")
-  fi
-  if [ $have_seq -eq 0 ]; then
-    ARGS=("${ARGS[@]}" --sequential)
-  fi
+  [ $have_seq -eq 0 ] && ARGS=("${ARGS[@]}" --sequential)
   exec "$PY" -m cli "${ARGS[@]}"
 fi
 exec "$PY" -m cli "$@"
