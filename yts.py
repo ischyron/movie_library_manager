@@ -70,11 +70,11 @@ def yts_search(title: str, year: Optional[int], timeout: float, retries: int, sl
         attempt += 1
         t0 = time.monotonic()
         try:
-            if verbose:
+            if True or verbose:
                 print(f"[yts] GET {url} q='{q}' attempt={attempt}")
             r = requests.get(url, params=params, timeout=timeout)
             elapsed = time.monotonic() - t0
-            if verbose:
+            if True or verbose:
                 print(f"[yts] status={r.status_code} elapsed={elapsed:.2f}s")
             r.raise_for_status()
             data = r.json()
@@ -240,12 +240,12 @@ def yts_lookup_from_csv(
         try:
             _, match = task(row)
         except Exception as e:
-            if verbose:
+            if True or verbose:
                 print(f"{RED}[yts] ERROR item failed: src='{src}' err={e}{RESET}")
             return [src, "", "", "", "", "", ""]
 
         if match is None:
-            if verbose:
+            if True or verbose:
                 print(f"{RED}[yts] no match: title='{title}' year='{year or ''}'{RESET}")
             return [src, "", "", "", "", "", ""]
 
@@ -262,7 +262,7 @@ def yts_lookup_from_csv(
                 kept_mag.append(magnet_from_torrent(match.title, t))
         next_q, next_t = _choose_next_quality(match, cur_rank)
         next_mag = magnet_from_torrent(match.title, next_t) if next_t else ""
-        if verbose:
+        if True or verbose:
             color = GREEN if kept_q else YELLOW
             print(f"{color}[yts] match: '{match.title}' ({match.year}) rating={match.rating} url={match.url}{RESET}")
             print(f"{color}[yts] torrents: total={len(all_q)} kept_higher={len(kept_q)} next={next_q or '-'}{RESET}")
