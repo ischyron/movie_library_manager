@@ -110,15 +110,26 @@ def _clean_title_and_year(text: str) -> Tuple[str, int | None]:
     return s, year
 
 def _parse_title_year_from_path(path: Path) -> Tuple[str, int | None]:
-    candidates = [path.parent.name, path.stem]
-    for cand in candidates:
-        m = GOOD_TITLE_RE.match(cand)
-        if m:
-            title = m.group("title").strip()
-            year = int(m.group("year"))
-            return title, year
-    title, year = _clean_title_and_year(candidates[0])
-    return title, year
+    folder = path.parent.name
+    file_stem = path.stem
+
+    # Prefer folder metadata for title (and year if present)
+    m_folder = GOOD_TITLE_RE.match(folder)
+    if m_folder:
+        return m_folder.group("title").strip(), int(m_folder.group("year"))
+
+    # Clean folder name into title; attempt to infer year from folder or file
+    title, year = _clean_title_and_year(folder)
+    if year is not None:
+        return title, year
+
+    # Try to get a year from the filename without adopting its title
+    m_file = GOOD_TITLE_RE.match(file_stem)
+    if m_file:
+        return title, int(m_file.group("year"))
+
+    _, fyear = _clean_title_and_year(file_stem)
+    return title, fyear
 
 
 def _looks_like_movie_dir(name: str) -> bool:

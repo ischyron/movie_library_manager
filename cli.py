@@ -58,10 +58,10 @@ def build_parser() -> argparse.ArgumentParser:
 
     # yts command
     yp = sub.add_parser("yts", help="Query YTS for items listed in a CSV")
-    yp.add_argument("--from-csv", required=True, type=Path, help="Input CSV from scan phase")
-    yp.add_argument("--out", type=Path, default=None, help="Output CSV for YTS results (defaults to repo data/)" )
+    yp.add_argument("--from-csv", required=True, type=Path, help="Input CSV from scan phase (will be updated in place)")
     yp.add_argument("--lost", action="store_true", help="Treat input as lost_movies.csv format")
     yp.add_argument("--concurrency", type=int, default=6, help="Parallel requests to YTS")
+    yp.add_argument("--sequential", action="store_true", help="Process one movie at a time (sets concurrency=1)")
     yp.add_argument("--timeout", type=float, default=12.0, help="HTTP timeout seconds")
     yp.add_argument("--retries", type=int, default=3, help="Retries per YTS query on failure/slow")
     yp.add_argument("--slow-after", type=float, default=9.0, help="Warn/retry if a request exceeds this many seconds")
@@ -92,16 +92,12 @@ def main(argv=None) -> int:
         return 0
 
     if args.cmd == "yts":
-        output_csv = args.out
-        if output_csv is None:
-            repo = find_repo_root(Path.cwd())
-            output_csv = (repo / "data" / ("yts_missing.csv" if args.lost else "yts_lowq.csv")).resolve()
-            output_csv.parent.mkdir(parents=True, exist_ok=True)
         yts_lookup_from_csv(
             input_csv=args.from_csv,
-            output_csv=output_csv,
+            output_csv=None,
             is_lost=args.lost,
-            concurrency=args.concurrency,
+            in_place=True,
+            concurrency=(1 if args.sequential else args.concurrency),
             timeout=args.timeout,
             retries=args.retries,
             slow_after=args.slow_after,

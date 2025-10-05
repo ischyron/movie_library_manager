@@ -1,40 +1,50 @@
-Movie Library Manager — Movie Library Scanner
+# Movie Library Manager
 
-Overview
-- Scans a movie library to find likely low-quality encodes and "lost" leaf folders that contain no valid videos (or only 0-byte videos).
-- Optionally queries the YTS API for available replacement formats for flagged or missing titles.
+## Overview
+- Scan a movie library for likely low‑quality encodes and “lost” folders (no valid videos or only 0‑byte videos).
+- Optionally check the YTS API for available replacement formats (no downloading).
 
-Artifacts
-- low_quality_movies.csv — suspect low-quality video files.
-- lost_movies.csv — leaf folders with no valid videos or only 0-byte videos.
-- yts_lowq.csv — YTS formats discovered for low_quality_movies.csv rows.
-- yts_missing.csv — YTS formats discovered for lost_movies.csv rows.
+## Quick Start
+- Setup (script): `source scripts/setup.sh`  (keeps venv active)
+- Setup (manual): `python3 -m venv .venv && source .venv/bin/activate && pip install -e .`
+- Scan: `python -m cli scan --root "/path/to/Movies"`
+- YTS: `python -m cli yts --from-csv data/low_quality_movies.csv --verbose`
+- Short command: `ml yts --from-csv data/low_quality_movies.csv --verbose`
 
-Heuristics (defaults; configurable via flags)
-- Video extensions: mkv, mp4, avi, m4v, mov, wmv, mpg, mpeg, ts, m2ts, vob, iso
-- Subtitle extensions: srt, sub, idx, ass, ssa, vtt
-- Junk dirs ignored (case-insensitive): subs, subtitles, sample, samples, extras, featurettes, trailers, art, artwork, posters, covers, metadata, .AppleDouble, .DS_Store, @eaDir, recycle.bin, lost+found, plex versions
-- Good-enough tokens (skip low-quality flag if present): 720p, 1024p, 1080p, 1440p, 2160p, 4K, UHD, REMUX
-- Low-quality tokens (flag if present and no good-enough token): DivX, XviD, CAM, TS, TC, DVDScr, DVDRip, R5, 360p, 480p, HDCAM, SDTV, PDTV
-- Tiny file threshold: 700 MiB (files smaller than this may be flagged unless good-enough token is present)
+## CLI
+- Scan: `python -m cli scan --root "/Volumes/Movies"` (writes CSVs to `data/` by default)
+- YTS (low‑quality): `python -m cli yts --from-csv data/low_quality_movies.csv --verbose`
+- In‑place update: `ml yts --from-csv data/low_quality_movies.csv --verbose` (appends YTS columns to the same CSV)
+- YTS (missing): `python -m cli yts --from-csv data/lost_movies.csv --lost --verbose`
+- Entry point: `movie-library-manager` provides the same commands.
+- Short alias: `ml` mirrors the same subcommands, e.g. `ml yts --from-csv data/low_quality_movies.csv --verbose`
 
-CLI
-- Scan:
-  - python -m cli scan --root "/Volumes/Extreme SSD/Movies"  (outputs to `data/` by default)
-- YTS lookup for flagged/missing:
-  - python -m cli yts --from-csv data/low_quality_movies.csv --out data/yts_lowq.csv
-  - python -m cli yts --from-csv data/lost_movies.csv --lost --out data/yts_missing.csv
+## Artifacts
+- `data/low_quality_movies.csv` — suspect low‑quality videos.
+- `data/lost_movies.csv` — leaf folders with no valid videos or only 0‑byte videos.
+- `data/yts_lowq.csv` and `data/yts_missing.csv` — YTS lookup results.
 
-Notes
-- No downloading or piracy; this tool only analyzes local metadata and queries YTS for available release qualities.
-- Parsing of titles/years uses simple patterns from folder/file names (e.g., "Movie Name (2012)"), and falls back to a fuzzy search via YTS query_term.
+## Heuristics (condensed)
+- Flags tiny files (< 700 MiB) unless a “good” token is present; flags explicit low‑quality tokens.
+- Good tokens: 720p, 1024p, 1080p, 1440p, 2160p, 4K, UHD, REMUX.
+- Low‑quality tokens: DivX, XviD, CAM, TS, TC, DVDScr, DVDRip, R5, 360p, 480p, HDCAM, SDTV, PDTV.
+- Ignores common junk subfolders (e.g., subs, samples, extras, artwork). Uses common video containers and subtitle files.
+- For authoritative, full lists and defaults, see `AGENTS.md`.
 
+## Kodi on macOS
+- Install Kodi 21 “Omega” for your Mac (ARM64 for Apple Silicon, x86_64 for Intel). If unstable, try latest 21.x or Kodi 20.2/20.3.
+- On first launch, allow external‑disk and network permissions.
 
-Installed entry point
-- After installing via pip, the command `movie-library-manager` runs the same CLI.
+## Mac → USB → TV Workflow
+- Organize: one‑movie‑per‑folder named `Title (Year)`; keep extras in ignored subfolders.
+- In Kodi (Mac): Videos → Files → Add → set content “Movies” with “separate folders” and “use folder names”.
+- Export: Settings → Media → Library → Export → “Separate files per item” (writes `.nfo`, `poster.jpg`, `fanart.jpg`).
+- USB: format as exFAT; copy the organized folders with exported metadata.
+- On TV Kodi: Add source from USB → set content Movies → scraper “Local information only” → Update library.
 
-Artifacts Directory
-- All CSV artifacts are written to `data/` in the repo root and are git-managed.
+## Notes
+- No downloading; only local analysis and YTS metadata queries.
+- Title/year parsing prefers `Title (YYYY)`; otherwise falls back to fuzzy search.
 
-Agents Guide
-- Detailed heuristics and contracts live in `AGENTS.md` to avoid duplication with README.
+## Agents Guide
+- Contracts, defaults, and full heuristics live in `AGENTS.md`.

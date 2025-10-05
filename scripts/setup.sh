@@ -55,6 +55,17 @@ source "$VENV_DIR/bin/activate" || die "failed to activate venv"
 # Use the venv's interpreter for all operations (explicit path avoids 'python' missing on some macOS)
 PY_VENV="$VENV_DIR/bin/python"
 
+# Ensure a python3 shim exists inside venv to avoid alias conflicts (alias python=python3)
+if [ ! -x "$VENV_DIR/bin/python3" ] && [ -x "$VENV_DIR/bin/python" ]; then
+  ln -sf "python" "$VENV_DIR/bin/python3" || true
+fi
+
+# Ensure venv bin is at front of PATH for this shell
+case ":$PATH:" in
+  *":$VENV_DIR/bin:"*) :;;
+  *) export PATH="$VENV_DIR/bin:$PATH";;
+esac
+
 # Ensure pip exists inside the venv (some systems build venvs without pip)
 if ! $PY_VENV -m pip --version >/dev/null 2>&1; then
   echo "[setup] Bootstrapping pip in venv"
@@ -65,12 +76,72 @@ if ! $PY_VENV -m pip --version >/dev/null 2>&1; then
 fi
 
 $PY_VENV -m pip install --upgrade pip wheel setuptools >/dev/null || die "pip bootstrap failed"
-$PY_VENV -m pip install -e . || die "project install failed"
+$PY_VENV -m pip install -e . || { die "project install failed"; return 1; }
 
 echo "[setup] Installed project into $VENV_DIR"
+
+# Ensure requests is present (handles edge-cases where editable install didn’t pull deps)
+if ! $PY_VENV -c "import requests" >/dev/null 2>&1; then
+  echo "[setup] Installing runtime dependency: requests"
+  $PY_VENV -m pip install "requests>=2.31.0" || die "failed to install requests"
+fi
+
+# Sanity check: core modules present
+if ! $PY_VENV - <<'PY'
+import sys
+print('[setup] Python:', sys.executable)
+import requests
+print('[setup] Verify: requests', requests.__version__)
+import cli, scanner, yts
+print('[setup] Verify: project modules import OK')
+PY
+then
+  die "verify failed (module import). Try: unalias python python3; hash -r; then source $VENV_DIR/bin/activate"
+fi
 
 if [ "$is_sourced" = true ]; then
   echo "[setup] Virtualenv is active in this shell."
 else
   echo "[setup] To activate later, run: source $VENV_DIR/bin/activate"
 fi
+
+echo "[setup] Try the CLI: movie-library-manager yts --from-csv data/low_quality_movies.csv --verbose"
+
+# Create short CLI shims inside the venv (ml, mlm)
+for name in ml mlm; do
+  cat >"$VENV_DIR/bin/$name" <<'SH'
+#!/usr/bin/env bash
+set -e
+VENV_BIN_DIR="$(cd -- "$(dirname -- "$0")" && pwd -P)"
+PY="$VENV_BIN_DIR/python"
+if [ "$1" = "yts" ]; then
+  ARGS=()
+  have_out=0
+  have_inplace=0
+  have_seq=0
+  for a in "$@"; do
+    case "$a" in
+      --out) have_out=1 ;;
+      --in-place) have_inplace=1 ;;
+      --sequential) have_seq=1 ;;
+    esac
+    ARGS+=("$a")
+  done
+  if [ $have_out -eq 0 ] && [ $have_inplace -eq 0 ]; then
+    ARGS=(yts --in-place "${ARGS[@]:1}")
+  fi
+  if [ $have_seq -eq 0 ]; then
+    ARGS=("${ARGS[@]}" --sequential)
+  fi
+  exec "$PY" -m cli "${ARGS[@]}"
+fi
+exec "$PY" -m cli "$@"
+SH
+  chmod +x "$VENV_DIR/bin/$name" || true
+done
+
+echo "[setup] Short commands available: ml, mlm (may need: rehash)"
+
+# Refresh command hash for current shell
+hash -r 2>/dev/null || true
+command -v rehash >/dev/null 2>&1 && rehash

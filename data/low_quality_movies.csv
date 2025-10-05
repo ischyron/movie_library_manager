@@ -6,7 +6,7 @@ title,size_mib,year,folder_path,rep_video_path,size_bytes,reason,tokens,flagged_
 25th Hour,699.96,2002,/Volumes/Extreme SSD/Movies/25th Hour (2002),/Volumes/Extreme SSD/Movies/25th Hour (2002)/25th Hour (2002).avi,733956096,tiny<700MiB,,1
 50 First Dates,699.78,,/Volumes/Extreme SSD/Movies/50 First Dates,/Volumes/Extreme SSD/Movies/50 First Dates/50 First Dates.avi,733769728,tiny<700MiB,,1
 8 Mile,699.65,,/Volumes/Extreme SSD/Movies/8 Mile,/Volumes/Extreme SSD/Movies/8 Mile/8 Mile.avi,733640704,tiny<700MiB,,1
-A Bronx Tale - Robert DeNiro,721.50,1993,/Volumes/Extreme SSD/Movies/A Bronx Tale,/Volumes/Extreme SSD/Movies/A Bronx Tale/A Bronx Tale - Robert DeNiro (1993) [ENG DivX].avi,756552752,tokens,DivX,1
+A Bronx Tale,721.50,1993,/Volumes/Extreme SSD/Movies/A Bronx Tale,/Volumes/Extreme SSD/Movies/A Bronx Tale/A Bronx Tale - Robert DeNiro (1993) [ENG DivX].avi,756552752,tokens,DivX,1
 A Bug's Life,663.26,,/Volumes/Extreme SSD/Movies/A Bug's Life,/Volumes/Extreme SSD/Movies/A Bug's Life/A Bugs Life (Disney (English)).avi,695482880,tiny<700MiB,,1
 A Dangerous Method,927.97,2011,/Volumes/Extreme SSD/Movies/A Dangerous Method (2011) DvdRip(Eng)-Blackknight,/Volumes/Extreme SSD/Movies/A Dangerous Method (2011) DvdRip(Eng)-Blackknight/A Dangerous Method (2011) DvdRip(Eng)-Blackknight.avi,973049896,tokens,DVDRip,1
 A Few Good Men,700.54,,/Volumes/Extreme SSD/Movies/A Few Good Men,/Volumes/Extreme SSD/Movies/A Few Good Men/Tom Cruise - Jack Nicholson - A Few Good Men (Divx).avi,734574592,tokens,DivX,1
@@ -14,19 +14,19 @@ A History Of Violence,700.08,,/Volumes/Extreme SSD/Movies/A History.Of.Violence[
 A Prophet,699.58,2009,/Volumes/Extreme SSD/Movies/A Prophet.2009.DVDRip.XviD-VoMiT,/Volumes/Extreme SSD/Movies/A Prophet.2009.DVDRip.XviD-VoMiT/vmt-prophet-xvid-cd1.avi,733558784,tiny<700MiB;tokens,XviD,2
 A Walk To Remember,699.55,,/Volumes/Extreme SSD/Movies/A Walk To Remember,/Volumes/Extreme SSD/Movies/A Walk To Remember/A Walk To Remember.avi,733530112,tiny<700MiB,,1
 Abduction,345.72,2011,/Volumes/Extreme SSD/Movies/Abduction 2011 BRRip 350MB x264 AAC - VYTO,/Volumes/Extreme SSD/Movies/Abduction 2011 BRRip 350MB x264 AAC - VYTO/Abduction 2011 BRRip 350MB x264 AAC - VYTO.mkv,362517144,tiny<700MiB,,1
-Adaptation,696.89,,/Volumes/Extreme SSD/Movies/Adaptation,/Volumes/Extreme SSD/Movies/Adaptation/Adaptation CD2 .2002.DVDRip.avi,730740736,tiny<700MiB;tokens,DVDRip,2
+Adaptation,696.89,2002,/Volumes/Extreme SSD/Movies/Adaptation,/Volumes/Extreme SSD/Movies/Adaptation/Adaptation CD2 .2002.DVDRip.avi,730740736,tiny<700MiB;tokens,DVDRip,2
 Aeon Flux,699.95,,/Volumes/Extreme SSD/Movies/Aeon Flux,/Volumes/Extreme SSD/Movies/Aeon Flux/Aeon.Flux[2005]DvDrip.AC3[Eng]-aXXo.avi,733945856,tiny<700MiB;tokens,DVDRip,1
 After the Sunset,701.16,,/Volumes/Extreme SSD/Movies/After the Sunset,/Volumes/Extreme SSD/Movies/After the Sunset/After.the.Sunset[2004]DvDrip[Eng]-aXXo.avi,735215616,tokens,DVDRip,1
 All the Kings Men,696.87,,/Volumes/Extreme SSD/Movies/All the Kings Men,/Volumes/Extreme SSD/Movies/All the Kings Men/All.the.Kings.Men.DVDRip.XviD.2-DiAMOND.[www.torrentfive.com].avi,730716160,tiny<700MiB;tokens,DVDRip|XviD,2
-America's Sweethearts,700.98,,/Volumes/Extreme SSD/Movies/America's Sweethearts,/Volumes/Extreme SSD/Movies/America's Sweethearts/Americas.Sweethearts.2001.DVDRip.DivX-ViTE.[wnet.co.il].avi,735027200,tokens,DVDRip|DivX|TS,1
+America's Sweethearts,700.98,2001,/Volumes/Extreme SSD/Movies/America's Sweethearts,/Volumes/Extreme SSD/Movies/America's Sweethearts/Americas.Sweethearts.2001.DVDRip.DivX-ViTE.[wnet.co.il].avi,735027200,tokens,DVDRip|DivX|TS,1
 American Beauty,669.21,1999,/Volumes/Extreme SSD/Movies/American Beauty (1999),/Volumes/Extreme SSD/Movies/American Beauty (1999)/American Beauty.avi,701714432,tiny<700MiB,,1
 American Psycho,669.41,,/Volumes/Extreme SSD/Movies/American Psycho,/Volumes/Extreme SSD/Movies/American Psycho/American Psycho.avi,701927424,tiny<700MiB,,1
 An Inconvenient Truth,699.80,2006,/Volumes/Extreme SSD/Movies/An Inconvenient Truth (2006),/Volumes/Extreme SSD/Movies/An Inconvenient Truth (2006)/An Inconvenient Truth (2006) DVD-rip.divx.avi.avi,733798400,tiny<700MiB;tokens,DivX,1
 Ask the Dust,700.15,,/Volumes/Extreme SSD/Movies/Ask the Dust,/Volumes/Extreme SSD/Movies/Ask the Dust/Ask.the.Dust[2006]DvDrip[Eng]-aXXo.avi,734160896,tokens,DVDRip,1
 Bad Boys,550.72,1995,/Volumes/Extreme SSD/Movies/Bad Boys (1995),/Volumes/Extreme SSD/Movies/Bad Boys (1995)/BdBys (1995) BRRip 550mb.mkv,577476837,tiny<700MiB,,1
 Bad Lieutenant,699.77,,/Volumes/Extreme SSD/Movies/Bad Lieutenant,/Volumes/Extreme SSD/Movies/Bad Lieutenant/Bad_Lieutenant [NC-17] (xvid110-sickboy88).avi,733757440,tiny<700MiB;tokens,XviD,1
-Basic Instinct,619.44,,/Volumes/Extreme SSD/Movies/Basic Instinct,/Volumes/Extreme SSD/Movies/Basic Instinct/Basic.Instinct.1992.DVDRip.XviD-MaX.[www.descargasweb.net].avi,649526784,tiny<700MiB;tokens,DVDRip|XviD,1
-Batman,702.07,,/Volumes/Extreme SSD/Movies/BATMAN/Batman,/Volumes/Extreme SSD/Movies/BATMAN/Batman/Batman.1989.DVDRip.DivX-enDi.avi,736174592,tokens,DVDRip|DivX,1
+Basic Instinct,619.44,1992,/Volumes/Extreme SSD/Movies/Basic Instinct,/Volumes/Extreme SSD/Movies/Basic Instinct/Basic.Instinct.1992.DVDRip.XviD-MaX.[www.descargasweb.net].avi,649526784,tiny<700MiB;tokens,DVDRip|XviD,1
+Batman,702.07,1989,/Volumes/Extreme SSD/Movies/BATMAN/Batman,/Volumes/Extreme SSD/Movies/BATMAN/Batman/Batman.1989.DVDRip.DivX-enDi.avi,736174592,tokens,DVDRip|DivX,1
 Batman & Robin,701.56,1997,/Volumes/Extreme SSD/Movies/BATMAN/Batman & Robin (1997),/Volumes/Extreme SSD/Movies/BATMAN/Batman & Robin (1997)/Batman and Robin dvd rip XviD.Rets.avi,735639552,tokens,TS|XviD,1
 Batman Forever,700.00,,/Volumes/Extreme SSD/Movies/BATMAN/Batman Forever,/Volumes/Extreme SSD/Movies/BATMAN/Batman Forever/Batman Forever dvd rip Xvid.Rets.avi,734005248,tokens,TS|XviD,1
 Batman Returns,700.94,,/Volumes/Extreme SSD/Movies/BATMAN/Batman Returns,/Volumes/Extreme SSD/Movies/BATMAN/Batman Returns/Batman Returns dvd rip XviD.Rets.avi,734990336,tokens,TS|XviD,1
@@ -40,7 +40,7 @@ Casablanca,601.97,1942,/Volumes/Extreme SSD/Movies/Casablanca (1942),/Volumes/Ex
 Cell 211,699.86,2009,/Volumes/Extreme SSD/Movies/Cell.211.2009.BDRip.XviD-NODLABS,/Volumes/Extreme SSD/Movies/Cell.211.2009.BDRip.XviD-NODLABS/cell.211.2009.bdrip.xvid-nodlabs.avi,733853696,tiny<700MiB;tokens,XviD,1
 Cheap Thrills,272.15,2013,/Volumes/Extreme SSD/Movies/Cheap.Thrills.2013.SweSub.BRRip.x264-SWAXXON,/Volumes/Extreme SSD/Movies/Cheap.Thrills.2013.SweSub.BRRip.x264-SWAXXON/Cheap.Thrills.2013.SweSub.BRRip.x264-SWAXXON.mp4,285365065,tiny<700MiB,,1
 Chicken Little,699.62,,/Volumes/Extreme SSD/Movies/Chicken Little,/Volumes/Extreme SSD/Movies/Chicken Little/Chicken.Little[2005]DvDrip.AC3[Eng]-aXXo.avi,733601792,tiny<700MiB;tokens,DVDRip,1
-Children of Heaven,700.38,,/Volumes/Extreme SSD/Movies/Children of Heaven,/Volumes/Extreme SSD/Movies/Children of Heaven/Children.Of.Heaven.1997.LIMITED.DVDRip.XViD-DDX.avi,734404608,tokens,DVDRip|XviD,1
+Children of Heaven,700.38,1997,/Volumes/Extreme SSD/Movies/Children of Heaven,/Volumes/Extreme SSD/Movies/Children of Heaven/Children.Of.Heaven.1997.LIMITED.DVDRip.XViD-DDX.avi,734404608,tokens,DVDRip|XviD,1
 Chinatown,700.32,1974,/Volumes/Extreme SSD/Movies/Chinatown (1974),/Volumes/Extreme SSD/Movies/Chinatown (1974)/Chinatown 1974 DVDRip Xvid CT.avi,734337024,tokens,DVDRip|XviD,1
 Choke,699.85,,/Volumes/Extreme SSD/Movies/Choke [2008],/Volumes/Extreme SSD/Movies/Choke [2008]/Choke[2008]DvDrip[Eng]-FXG.avi,733849656,tiny<700MiB;tokens,DVDRip,1
 Chronicle,699.90,2012,/Volumes/Extreme SSD/Movies/Chronicle.2012.DVDRip.XviD-SPARKS,/Volumes/Extreme SSD/Movies/Chronicle.2012.DVDRip.XviD-SPARKS/sparks-chronicle-xvid.avi,733898752,tiny<700MiB;tokens,XviD,1
@@ -58,7 +58,7 @@ Conviction,699.83,,/Volumes/Extreme SSD/Movies/Conviction[2010]BRRip XviD-ExtraT
 Crank,698.75,,/Volumes/Extreme SSD/Movies/Crank,/Volumes/Extreme SSD/Movies/Crank/Crank[2006]DvDrip[Eng]-aXXo.avi,732696576,tiny<700MiB;tokens,DVDRip,1
 Crazy Heart,699.20,,/Volumes/Extreme SSD/Movies/Crazy Heart[2009]DvDrip[Eng]-FXG,/Volumes/Extreme SSD/Movies/Crazy Heart[2009]DvDrip[Eng]-FXG/Crazy Heart[2009]DvDrip[Eng]-FXG.avi,733163520,tiny<700MiB;tokens,DVDRip,1
 Cruel Intentions,699.37,,/Volumes/Extreme SSD/Movies/CRUEL INTENTIONS/Cruel Intentions,/Volumes/Extreme SSD/Movies/CRUEL INTENTIONS/Cruel Intentions/Cruel Intentions [Eng][DVDRip][Xvid][1999][www.Torrent-Talk.com].avi,733339648,tiny<700MiB;tokens,DVDRip|XviD,1
-Dante's Peak,1426.39,,/Volumes/Extreme SSD/Movies/Dante's Peak,/Volumes/Extreme SSD/Movies/Dante's Peak/Dante's.Peak.1997.XviD.Beefstew.RG.avi,1495683072,tokens,XviD,1
+Dante's Peak,1426.39,1997,/Volumes/Extreme SSD/Movies/Dante's Peak,/Volumes/Extreme SSD/Movies/Dante's Peak/Dante's.Peak.1997.XviD.Beefstew.RG.avi,1495683072,tokens,XviD,1
 Deep Impact,1400.39,,/Volumes/Extreme SSD/Movies/Deep Impact,/Volumes/Extreme SSD/Movies/Deep Impact/DeepImpact_Xvid_AC3_NTSC.avi,1468416000,tokens,TS|XviD,1
 Der Untergang (Downfall),695.66,2004,/Volumes/Extreme SSD/Movies/Der Untergang (Downfall)(2004),/Volumes/Extreme SSD/Movies/Der Untergang (Downfall)(2004)/Der Untergang (Downfall) EngSub2.avi,729456640,tiny<700MiB,,2
 Derailed,699.96,,/Volumes/Extreme SSD/Movies/Derailed,/Volumes/Extreme SSD/Movies/Derailed/Derailed[2005]Unrated.DvDrip[Eng]-aXXo.avi,733964288,tiny<700MiB;tokens,DVDRip,1
@@ -69,12 +69,12 @@ District 9,700.05,2009,/Volumes/Extreme SSD/Movies/District 9,/Volumes/Extreme S
 Diva,1414.28,1981,/Volumes/Extreme SSD/Movies/Diva 1981 PAL XviD FRE multi-sub proper audio OST,/Volumes/Extreme SSD/Movies/Diva 1981 PAL XviD FRE multi-sub proper audio OST/Diva 1981 XviD French PAL.avi,1482975232,tokens,XviD,1
 Domino,700.68,,/Volumes/Extreme SSD/Movies/Domino,/Volumes/Extreme SSD/Movies/Domino/Domino[2005]DvDrip[Eng]-aXXo.avi,734720000,tokens,DVDRip,1
 Donnie Darko,699.09,,/Volumes/Extreme SSD/Movies/Donnie Darko,/Volumes/Extreme SSD/Movies/Donnie Darko/Donnie Darko.avi,733052928,tiny<700MiB,,1
-Dr Seuss The Lorax,985.61,,/Volumes/Extreme SSD/Movies/Dr.Seuss.The.Lorax,/Volumes/Extreme SSD/Movies/Dr.Seuss.The.Lorax/Dr.Seuss.The.Lorax.2012.DVDRip.LiNE.XviD.AC3.HQ.Hive-CM8.avi,1033490432,tokens,DVDRip|XviD,1
+Dr Seuss The Lorax,985.61,2012,/Volumes/Extreme SSD/Movies/Dr.Seuss.The.Lorax,/Volumes/Extreme SSD/Movies/Dr.Seuss.The.Lorax/Dr.Seuss.The.Lorax.2012.DVDRip.LiNE.XviD.AC3.HQ.Hive-CM8.avi,1033490432,tokens,DVDRip|XviD,1
 Dr.Strangelove,696.98,1964,/Volumes/Extreme SSD/Movies/Dr.Strangelove (1964),/Volumes/Extreme SSD/Movies/Dr.Strangelove (1964)/Dr.Strangelove.DVDRip.XviD.Parkyns.avi,730834944,tiny<700MiB;tokens,DVDRip|XviD,1
 Drive,700.89,,/Volumes/Extreme SSD/Movies/Drive  {2011} DVDRIP. Jaybob,/Volumes/Extreme SSD/Movies/Drive  {2011} DVDRIP. Jaybob/Drive  {2011} DVDRIP. Jaybob.avi,734941184,tokens,DVDRip,1
 E T The Extra,699.97,,/Volumes/Extreme SSD/Movies/E.T. The Extra-Terrestrial,/Volumes/Extreme SSD/Movies/E.T. The Extra-Terrestrial/E.T. The Extra-Terrestrial.mp4,733968601,tiny<700MiB,,1
 Eight Below,703.71,2006,/Volumes/Extreme SSD/Movies/Eight Below (2006),/Volumes/Extreme SSD/Movies/Eight Below (2006)/Eight Below [DVDRiP] Eng [2006] -=Flint=- [www.nitcom.com.au].avi,737896448,tokens,DVDRip|TC,1
-El Mariachi,698.12,,/Volumes/Extreme SSD/Movies/El Mariachi,/Volumes/Extreme SSD/Movies/El Mariachi/El Mariachi.1992.avi,732037120,tiny<700MiB,,1
+El Mariachi,698.12,1992,/Volumes/Extreme SSD/Movies/El Mariachi,/Volumes/Extreme SSD/Movies/El Mariachi/El Mariachi.1992.avi,732037120,tiny<700MiB,,1
 Elektra,701.13,,/Volumes/Extreme SSD/Movies/Elektra,/Volumes/Extreme SSD/Movies/Elektra/Elektra[2005]DvDrip[Eng]-aXXo.avi,735191040,tokens,DVDRip,1
 Elizabethtown,700.13,,/Volumes/Extreme SSD/Movies/Elizabethtown,/Volumes/Extreme SSD/Movies/Elizabethtown/Elizabethtown.DVDRip.XviD-DiAMOND.[www.descargasweb.net].avi,734142464,tokens,DVDRip|XviD,1
 Empire Of The Sun,1195.99,1987,/Volumes/Extreme SSD/Movies/Empire Of The Sun 1987 DVDRiP H264-Deemu,/Volumes/Extreme SSD/Movies/Empire Of The Sun 1987 DVDRiP H264-Deemu/Empire Of The Sun 1987 DVDRiP H264-Deemu.mp4,1254091006,tokens,DVDRip,1
@@ -93,7 +93,7 @@ First Position,700.17,2011,/Volumes/Extreme SSD/Movies/First.Position.2011.DVDRi
 Flightplan,701.32,,/Volumes/Extreme SSD/Movies/Flightplan[2005]DvDrip[Eng]-aXXo,/Volumes/Extreme SSD/Movies/Flightplan[2005]DvDrip[Eng]-aXXo/Flightplan[2005]DvDrip[Eng]-aXXo.avi,735391744,tokens,DVDRip,1
 Flushed Away,699.71,,/Volumes/Extreme SSD/Movies/Flushed Away,/Volumes/Extreme SSD/Movies/Flushed Away/Flushed.Away[2006]DvDrip.AC3[Eng]-aXXo.avi,733693952,tiny<700MiB;tokens,DVDRip,1
 Following,259.36,1998,/Volumes/Extreme SSD/Movies/Following (1998),/Volumes/Extreme SSD/Movies/Following (1998)/Following [1998]-480p-BRrip-x264-StyLishSaLH (StyLish Release).mp4,271956095,tiny<700MiB;tokens,480p,1
-Fools Rush In,1491.72,,/Volumes/Extreme SSD/Movies/Fools Rush In,/Volumes/Extreme SSD/Movies/Fools Rush In/Fools.Rush.In.1997.WS.DVDRip.XviD.AC3-C00LdUdE.avi,1564178432,tokens,DVDRip|XviD,1
+Fools Rush In,1491.72,1997,/Volumes/Extreme SSD/Movies/Fools Rush In,/Volumes/Extreme SSD/Movies/Fools Rush In/Fools.Rush.In.1997.WS.DVDRip.XviD.AC3-C00LdUdE.avi,1564178432,tokens,DVDRip|XviD,1
 For A Few Dollars More,634.51,,/Volumes/Extreme SSD/Movies/For A Few Dollars More,/Volumes/Extreme SSD/Movies/For A Few Dollars More/For A Few Dollars More.avi,665327520,tiny<700MiB,,1
 Forrest Gump,699.74,,/Volumes/Extreme SSD/Movies/Forrest Gump,/Volumes/Extreme SSD/Movies/Forrest Gump/Forrest Gump.avi,733734912,tiny<700MiB,,1
 Fracture,0.00,,/Volumes/Extreme SSD/Movies/Fracture[2007]DvDrip[Eng]-FXG,/Volumes/Extreme SSD/Movies/Fracture[2007]DvDrip[Eng]-FXG/._Fracture[2007]DvDrip[Eng]-FXG.avi,4096,tiny<700MiB;tokens,DVDRip,2
@@ -108,7 +108,7 @@ Glengarry Glen Ross,648.21,,/Volumes/Extreme SSD/Movies/Glengarry Glen Ross,/Vol
 Glory,698.55,1989,/Volumes/Extreme SSD/Movies/Glory (1989),/Volumes/Extreme SSD/Movies/Glory (1989)/Glory_(1989).CD2.avi,732487680,tiny<700MiB,,2
 Gran Torino,799.32,2008,/Volumes/Extreme SSD/Movies/Gran.Torino.2008.DvDRip-FxM,/Volumes/Extreme SSD/Movies/Gran.Torino.2008.DvDRip-FxM/Gran.Torino.2008.DvDRip-FxM.avi,838150144,tokens,DVDRip,1
 Green Zone,1400.06,2010,/Volumes/Extreme SSD/Movies/Green Zone (2010) DVDRip XviD-MAXSPEED,/Volumes/Extreme SSD/Movies/Green Zone (2010) DVDRip XviD-MAXSPEED/Green Zone (2010) DVDRip XviD-MAXSPEED www.torentz.3xforum.ro.avi,1468074130,tokens,DVDRip|XviD,1
-Groundhog Day,701.83,,/Volumes/Extreme SSD/Movies/Groundhog Day,/Volumes/Extreme SSD/Movies/Groundhog Day/Groundhog.Day.1993.INTERNAL.DVDRip.XviD-CFH.avi,735922176,tokens,DVDRip|XviD,1
+Groundhog Day,701.83,1993,/Volumes/Extreme SSD/Movies/Groundhog Day,/Volumes/Extreme SSD/Movies/Groundhog Day/Groundhog.Day.1993.INTERNAL.DVDRip.XviD-CFH.avi,735922176,tokens,DVDRip|XviD,1
 Hancock,702.06,,/Volumes/Extreme SSD/Movies/Hancock[2008]DvDrip-aXXo,/Volumes/Extreme SSD/Movies/Hancock[2008]DvDrip-aXXo/Hancock[2008]DvDrip-aXXo.avi,736167936,tokens,DVDRip,1
 Happy Feet,700.75,,/Volumes/Extreme SSD/Movies/Happy Feet,/Volumes/Extreme SSD/Movies/Happy Feet/Happy.Feet[2006]DvDrip[Eng]-aXXo.avi,734785536,tokens,DVDRip,1
 Hard Candy,701.59,,/Volumes/Extreme SSD/Movies/Hard.Candy[2005]DvDrip[Eng]-aXXo,/Volumes/Extreme SSD/Movies/Hard.Candy[2005]DvDrip[Eng]-aXXo/Hard.Candy[2006]DvDrip[Eng]-aXXo.avi,735672320,tokens,DVDRip,1
@@ -122,7 +122,7 @@ Home Alone 2,702.82,,/Volumes/Extreme SSD/Movies/Home Alone 2,/Volumes/Extreme S
 Hostage,700.27,,/Volumes/Extreme SSD/Movies/Hostage,/Volumes/Extreme SSD/Movies/Hostage/MOVIES - HOSTAGE - Bruce Willis - NEW 6-21-05 (DivX DvdRip By NightSongz).avi,734282182,tokens,DVDRip|DivX|TS,1
 Hostel,699.79,,/Volumes/Extreme SSD/Movies/Hostel,/Volumes/Extreme SSD/Movies/Hostel/Hostel[Unrated][2005]DvDrip.AC3[Eng]-aXXo.avi,733788160,tiny<700MiB;tokens,DVDRip,1
 Hot Fuzz,701.30,,/Volumes/Extreme SSD/Movies/Hot Fuzz,/Volumes/Extreme SSD/Movies/Hot Fuzz/Hot.Fuzz[2007]DvDrip[Eng]-aXXo.avi,735367168,tokens,DVDRip,1
-How to lose a Guy in 10 Days,700.11,2003,/Volumes/Extreme SSD/Movies/How To Lose A Guy in 10 Days,/Volumes/Extreme SSD/Movies/How To Lose A Guy in 10 Days/How to lose a Guy in 10 Days (2003) [english] XviD.avi,734115840,tokens,XviD,1
+How To Lose A Guy in 10 Days,700.11,2003,/Volumes/Extreme SSD/Movies/How To Lose A Guy in 10 Days,/Volumes/Extreme SSD/Movies/How To Lose A Guy in 10 Days/How to lose a Guy in 10 Days (2003) [english] XviD.avi,734115840,tokens,XviD,1
 Hugo,699.29,,/Volumes/Extreme SSD/Movies/Hugo {2011} DVDRIP. Jaybob,/Volumes/Extreme SSD/Movies/Hugo {2011} DVDRIP. Jaybob/Hugo {2011} DVDRIP. Jaybob.avi,733261462,tiny<700MiB;tokens,DVDRip,1
 Ice Age,699.95,,/Volumes/Extreme SSD/Movies/ICE AGE - Collection/Ice Age,/Volumes/Extreme SSD/Movies/ICE AGE - Collection/Ice Age/Ice Age.avi,733945856,tiny<700MiB,,1
 Ice Age 2 - The Meltdown,699.72,,/Volumes/Extreme SSD/Movies/ICE AGE - Collection/Ice Age 2 - The Meltdown,/Volumes/Extreme SSD/Movies/ICE AGE - Collection/Ice Age 2 - The Meltdown/Ice.Age.2-The.Meltdown[2006]DvDrip.AC3[Eng]-aXXo.avi,733706240,tiny<700MiB;tokens,DVDRip,1
@@ -181,7 +181,7 @@ Men In Black,700.00,,/Volumes/Extreme SSD/Movies/MIB/Men In Black,/Volumes/Extre
 Men In Black 3,397.11,2012,/Volumes/Extreme SSD/Movies/MIB/Men In Black 3 (2012) DVDRip 400MB - ThePecko,/Volumes/Extreme SSD/Movies/MIB/Men In Black 3 (2012) DVDRip 400MB - ThePecko/Men In Black 3 (2012) DVDRip 400MB - ThePecko [EpicMoviez.Com].mkv,416404410,tiny<700MiB;tokens,DVDRip,1
 Michael Jackson This Is It,1396.20,2009,/Volumes/Extreme SSD/Movies/Michael Jackson This Is It (2009),/Volumes/Extreme SSD/Movies/Michael Jackson This Is It (2009)/Michael Jackson This Is It (2009) DVDRip XviD-MAXSPEED www.torentz.3xforum.ro.avi,1464019526,tokens,DVDRip|XviD,1
 Minority Report,656.21,,/Volumes/Extreme SSD/Movies/Minority Report,/Volumes/Extreme SSD/Movies/Minority Report/Minority Report [Eng] [DVDrip].avi,688084992,tiny<700MiB;tokens,DVDRip,1
-Miss Congeniality,698.93,,/Volumes/Extreme SSD/Movies/Miss Congeniality,/Volumes/Extreme SSD/Movies/Miss Congeniality/Miss.Congeniality.2000.DVDrip.ws.DivX.DOMiNiON.avi,732884992,tiny<700MiB;tokens,DVDRip|DivX,1
+Miss Congeniality,698.93,2000,/Volumes/Extreme SSD/Movies/Miss Congeniality,/Volumes/Extreme SSD/Movies/Miss Congeniality/Miss.Congeniality.2000.DVDrip.ws.DivX.DOMiNiON.avi,732884992,tiny<700MiB;tokens,DVDRip|DivX,1
 Miss Congeniality 2 - Armed & Fabulous,671.99,,/Volumes/Extreme SSD/Movies/Miss Congeniality 2  - Armed & Fabulous,/Volumes/Extreme SSD/Movies/Miss Congeniality 2  - Armed & Fabulous/Miss.Congeniality.2.Armed.And.Fabulous.XviD-DiAMOND.ShareVirus.avi,704634880,tiny<700MiB;tokens,XviD,1
 Mission Impossible 4 Ghost Protocol,1329.29,2011,/Volumes/Extreme SSD/Movies/MISSION IMPOSSIBLE/Mission Impossible 4 Ghost Protocol (2011) DVDRip XviD-MAXSPEED,/Volumes/Extreme SSD/Movies/MISSION IMPOSSIBLE/Mission Impossible 4 Ghost Protocol (2011) DVDRip XviD-MAXSPEED/Mission Impossible 4 Ghost Protocol (2011) DVDRip XviD-MAXSPEED www.torentz.3xforum.ro.avi,1393858188,tokens,DVDRip|XviD,1
 Mission Impossible,801.06,1996,/Volumes/Extreme SSD/Movies/MISSION IMPOSSIBLE/Mission Impossible [1996],/Volumes/Extreme SSD/Movies/MISSION IMPOSSIBLE/Mission Impossible [1996]/Mission Impossible(1996)DVDrip(AC3-5.1)- keltz.avi,839968768,tokens,DVDRip,1
@@ -189,10 +189,10 @@ Mission Impossible II,894.58,2000,/Volumes/Extreme SSD/Movies/MISSION IMPOSSIBLE
 Monster's Ball,701.54,,/Volumes/Extreme SSD/Movies/Monster's Ball,/Volumes/Extreme SSD/Movies/Monster's Ball/MONSTER'S.BALL.DVDRIP.D7S.avi,735614976,tokens,DVDRip,1
 Monsters,699.95,,/Volumes/Extreme SSD/Movies/Monsters[2010]DvDrip[Eng]-FXG,/Volumes/Extreme SSD/Movies/Monsters[2010]DvDrip[Eng]-FXG/Monsters[2010]DvDrip[Eng]-FXG.avi,733947904,tiny<700MiB;tokens,DVDRip,1
 Mr. Brooks,451.49,2007,/Volumes/Extreme SSD/Movies/Mr. Brooks (2007),/Volumes/Extreme SSD/Movies/Mr. Brooks (2007)/Mr. Brooks (2007) BRRIP 450MB - ThePecko [EpicMoviez.Com].mkv,473422423,tiny<700MiB,,1
-Mr Deeds,700.69,,/Volumes/Extreme SSD/Movies/Mr. Deeds,/Volumes/Extreme SSD/Movies/Mr. Deeds/Mr.Deeds.2002.FS.DVDRip.DivX-RFtA.avi,734728192,tokens,DVDRip|DivX,1
+Mr Deeds,700.69,2002,/Volumes/Extreme SSD/Movies/Mr. Deeds,/Volumes/Extreme SSD/Movies/Mr. Deeds/Mr.Deeds.2002.FS.DVDRip.DivX-RFtA.avi,734728192,tokens,DVDRip|DivX,1
 Munich,899.21,,/Volumes/Extreme SSD/Movies/Munich[2005]DvDrip[Eng]-aXXo,/Volumes/Extreme SSD/Movies/Munich[2005]DvDrip[Eng]-aXXo/Munich[2005]DvDrip[Eng]-aXXo.avi,942888960,tokens,DVDRip,1
 My Best Friend's Wedding,700.79,1997,/Volumes/Extreme SSD/Movies/My Best Friend's Wedding (1997),/Volumes/Extreme SSD/Movies/My Best Friend's Wedding (1997)/My Best Friend's Wedding.DVDRIP.DivX5-BraveDOG.avi,734836736,tokens,DVDRip|DivX,1
-My Blueberry Nights,696.99,,/Volumes/Extreme SSD/Movies/My Blueberry Nights,/Volumes/Extreme SSD/Movies/My Blueberry Nights/my.blueberry.nights.2007.limited.dvdrip.xvid-espise.avi,730847232,tiny<700MiB;tokens,DVDRip|TS|XviD,1
+My Blueberry Nights,696.99,2007,/Volumes/Extreme SSD/Movies/My Blueberry Nights,/Volumes/Extreme SSD/Movies/My Blueberry Nights/my.blueberry.nights.2007.limited.dvdrip.xvid-espise.avi,730847232,tiny<700MiB;tokens,DVDRip|TS|XviD,1
 Mystic River,699.70,2003,/Volumes/Extreme SSD/Movies/Mystic River (2003),/Volumes/Extreme SSD/Movies/Mystic River (2003)/Mystic_River.avi,733685760,tiny<700MiB,,1
 National Treasure,650.83,,/Volumes/Extreme SSD/Movies/National Treasure,/Volumes/Extreme SSD/Movies/National Treasure/NATIONAL TREASURE (ENG) DVD QUALITY Divx rip SHARE!!!.avi,682448896,tiny<700MiB;tokens,DivX,1
 Natural Resistance,793.41,2014,/Volumes/Extreme SSD/Movies/Natural.Resistance.2014.DVDRip.x264-RedBlade[hotpena],/Volumes/Extreme SSD/Movies/Natural.Resistance.2014.DVDRip.x264-RedBlade[hotpena]/natural.resistance.2014.dvdrip.x264-redblade.mkv,831954602,tokens,DVDRip,1
@@ -203,17 +203,17 @@ Notting Hill,698.90,,/Volumes/Extreme SSD/Movies/Notting Hill,/Volumes/Extreme S
 Nowhere Boy,699.79,,/Volumes/Extreme SSD/Movies/Nowhere Boy[2009]DvDrip[Eng]-FXG,/Volumes/Extreme SSD/Movies/Nowhere Boy[2009]DvDrip[Eng]-FXG/Nowhere Boy[2009]DvDrip[Eng]-FXG.avi,733779968,tiny<700MiB;tokens,DVDRip,1
 Nuit et Brouillard,698.91,,/Volumes/Extreme SSD/Movies/Nuit et Brouillard,"/Volumes/Extreme SSD/Movies/Nuit et Brouillard/Nuit.Et.Brouillard.(1955,.Documentaire.Alain.Resnais).Divx.Fr-teste.DivXovore.com-.avi",732864512,tiny<700MiB;tokens,DivX,1
 Oceans Eleven,905.08,,/Volumes/Extreme SSD/Movies/Oceans Eleven,/Volumes/Extreme SSD/Movies/Oceans Eleven/Oceans 11 Eleven - Proper DVD rip [XviD].avi,949043200,tokens,XviD,1
-Oldboy,700.43,,/Volumes/Extreme SSD/Movies/Oldboy,/Volumes/Extreme SSD/Movies/Oldboy/Oldboy.2003.PROPER.DVDRip.XviD-PLuS.avi,734449664,tokens,DVDRip|XviD,1
+Oldboy,700.43,2003,/Volumes/Extreme SSD/Movies/Oldboy,/Volumes/Extreme SSD/Movies/Oldboy/Oldboy.2003.PROPER.DVDRip.XviD-PLuS.avi,734449664,tokens,DVDRip|XviD,1
 One Eyed Girl,1415.51,2015,/Volumes/Extreme SSD/Movies/One.Eyed.Girl.2015.HDRip.XviD.AC3-EVO,/Volumes/Extreme SSD/Movies/One.Eyed.Girl.2015.HDRip.XviD.AC3-EVO/One.Eyed.Girl.2015.HDRip.XviD.AC3-EVO.avi,1484272706,tokens,XviD,1
 Open Season,699.76,,/Volumes/Extreme SSD/Movies/Open Season,/Volumes/Extreme SSD/Movies/Open Season/Open.Season[2006]DvDrip.AC3[Eng]-aXXo.avi,733753344,tiny<700MiB;tokens,DVDRip,1
-Outsourced,700.33,,/Volumes/Extreme SSD/Movies/Outsourced,/Volumes/Extreme SSD/Movies/Outsourced/Outsourced.2006.avi,734347264,tokens,TS,1
+Outsourced,700.33,2006,/Volumes/Extreme SSD/Movies/Outsourced,/Volumes/Extreme SSD/Movies/Outsourced/Outsourced.2006.avi,734347264,tokens,TS,1
 Over the Hedge,699.30,,/Volumes/Extreme SSD/Movies/Over the Hedge,/Volumes/Extreme SSD/Movies/Over the Hedge/dmd-othedge.avi,733270016,tiny<700MiB,,1
 Pan's Labyrinth,701.22,,/Volumes/Extreme SSD/Movies/Pan's.Labyrinth[2006]DvDrip[Eng.Sub]-aXXo,/Volumes/Extreme SSD/Movies/Pan's.Labyrinth[2006]DvDrip[Eng.Sub]-aXXo/Pan's.Labyrinth[2006]DvDrip[Eng.Sub]-aXXo.avi,735287296,tokens,DVDRip,1
 Paths Of Glory,700.15,1957,/Volumes/Extreme SSD/Movies/Paths Of Glory (1957),/Volumes/Extreme SSD/Movies/Paths Of Glory (1957)/Paths.Of.Glory.1957.DVDRip.avi,734160896,tokens,DVDRip,1
-Pirates of Silicon Valley,694.76,,/Volumes/Extreme SSD/Movies/Pirates of Silicon Valley,/Volumes/Extreme SSD/Movies/Pirates of Silicon Valley/The.Pirates.of.Silicon.Valley.1999.DVDRip.XviD-FiNaLe.avi,728512512,tiny<700MiB;tokens,DVDRip|XviD,1
+Pirates of Silicon Valley,694.76,1999,/Volumes/Extreme SSD/Movies/Pirates of Silicon Valley,/Volumes/Extreme SSD/Movies/Pirates of Silicon Valley/The.Pirates.of.Silicon.Valley.1999.DVDRip.XviD-FiNaLe.avi,728512512,tiny<700MiB;tokens,DVDRip|XviD,1
 Play It Again Sam,705.81,1972,/Volumes/Extreme SSD/Movies/Play It Again Sam(1972),/Volumes/Extreme SSD/Movies/Play It Again Sam(1972)/Play It Again Sam (Woody Allen 1972) XviD DVDRip.avi,740096760,tokens,DVDRip|XviD,1
-Walt Disney - Pocahontas II Journey to a New World,633.20,1998,/Volumes/Extreme SSD/Movies/Pocahontas II,/Volumes/Extreme SSD/Movies/Pocahontas II/Walt Disney - Pocahontas II Journey to a New World (1998).avi,663957504,tiny<700MiB,,1
-Point Break,1007.35,,/Volumes/Extreme SSD/Movies/Point.Break,/Volumes/Extreme SSD/Movies/Point.Break/Point.Break.1991.Kathryn.Bigelow.DVDRip.XviD.MP3.avi,1056278528,tokens,DVDRip|XviD,1
+Pocahontas II,633.20,1998,/Volumes/Extreme SSD/Movies/Pocahontas II,/Volumes/Extreme SSD/Movies/Pocahontas II/Walt Disney - Pocahontas II Journey to a New World (1998).avi,663957504,tiny<700MiB,,1
+Point Break,1007.35,1991,/Volumes/Extreme SSD/Movies/Point.Break,/Volumes/Extreme SSD/Movies/Point.Break/Point.Break.1991.Kathryn.Bigelow.DVDRip.XviD.MP3.avi,1056278528,tokens,DVDRip|XviD,1
 Population 436,700.95,,/Volumes/Extreme SSD/Movies/Population 436,/Volumes/Extreme SSD/Movies/Population 436/Population.436[2006]DvDrip[Eng]-aXXo.avi,735000576,tokens,DVDRip,1
 Precious Based on the Novel Push by Sapphire,695.02,,/Volumes/Extreme SSD/Movies/Precious Based on the Novel Push by Sapphire,/Volumes/Extreme SSD/Movies/Precious Based on the Novel Push by Sapphire/Precious Based on the Novel Push by Sapphire[2009]DvDrip[Eng]-FXG.avi,728778402,tiny<700MiB;tokens,DVDRip,1
 Predator,699.32,,/Volumes/Extreme SSD/Movies/Predator[1987]DvDrip[Eng]-FXG,/Volumes/Extreme SSD/Movies/Predator[1987]DvDrip[Eng]-FXG/Predator[1987]DvDrip[Eng]-FXG.avi,733286400,tiny<700MiB;tokens,DVDRip,1
@@ -232,14 +232,14 @@ Resident Evil,701.43,,"/Volumes/Extreme SSD/Movies/RESIDENT EVIL 1,2/Resident.Ev
 Resident Evil 2,701.00,,"/Volumes/Extreme SSD/Movies/RESIDENT EVIL 1,2/Resident.Evil.2-Apocalypse","/Volumes/Extreme SSD/Movies/RESIDENT EVIL 1,2/Resident.Evil.2-Apocalypse/Resident.Evil.2-Apocalypse[2004]DvDrip-aXXo.avi",735053824,tokens,DVDRip,1
 Revolver,693.79,,/Volumes/Extreme SSD/Movies/Revolver,/Volumes/Extreme SSD/Movies/Revolver/Revolver.DVDSCR.XViD-LEGACY.(PeerWeb.org).avi,727488512,tiny<700MiB;tokens,DVDScr|XviD,1
 Rio,1430.62,2011,/Volumes/Extreme SSD/Movies/Rio (2011) R5 XviD-MAXSPEED,/Volumes/Extreme SSD/Movies/Rio (2011) R5 XviD-MAXSPEED/Rio (2011) R5 XviD-MAXSPEED www.torentz.3xforum.ro.avi,1500112226,tokens,R5|XviD,1
-Robots,701.94,,/Volumes/Extreme SSD/Movies/Robots,/Volumes/Extreme SSD/Movies/Robots/Robots.2005.DVDRip.XViD-TrV.avi,736038912,tokens,DVDRip|TS|XviD,1
+Robots,701.94,2005,/Volumes/Extreme SSD/Movies/Robots,/Volumes/Extreme SSD/Movies/Robots/Robots.2005.DVDRip.XViD-TrV.avi,736038912,tokens,DVDRip|TS|XviD,1
 Rocky III,535.92,1982,/Volumes/Extreme SSD/Movies/ROCKY/Rocky III(1982) BRRip(1088x576).x264.GokU61,/Volumes/Extreme SSD/Movies/ROCKY/Rocky III(1982) BRRip(1088x576).x264.GokU61/Rocky III() BRRip(1088x576).x264.GokU61.mp4,561955042,tiny<700MiB,,1
 Running Scared,700.19,2006,/Volumes/Extreme SSD/Movies/Running Scared (2006),/Volumes/Extreme SSD/Movies/Running Scared (2006)/Running.Scared[2006]DvDrip[Eng]-aXXo.avi,734199808,tokens,DVDRip,1
 Safe,698.59,,/Volumes/Extreme SSD/Movies/Safe[2012]BRRip XviD-ETRG,/Volumes/Extreme SSD/Movies/Safe[2012]BRRip XviD-ETRG/Safe[2012]BRRip XviD-ETRG.avi,732520570,tiny<700MiB;tokens,XviD,1
 Sahara,701.76,,/Volumes/Extreme SSD/Movies/Sahara,/Volumes/Extreme SSD/Movies/Sahara/Sahara[2005]DvDrip[Eng]-aXXo.avi,735846400,tokens,DVDRip,1
 Salt,699.61,,/Volumes/Extreme SSD/Movies/Salt,/Volumes/Extreme SSD/Movies/Salt/Salt[2010]DVDrip-Crisp.avi,733591272,tiny<700MiB;tokens,DVDRip,1
 Samsara,1676.04,2011,/Volumes/Extreme SSD/Movies/Samsara 2011 BRRip XviD AC3 - HDSi,/Volumes/Extreme SSD/Movies/Samsara 2011 BRRip XviD AC3 - HDSi/Samsara 2011 BRRip XviD AC3 - HDSi.avi,1757450142,tokens,XviD,1
-Saw II,699.77,,/Volumes/Extreme SSD/Movies/SAW/Saw II,/Volumes/Extreme SSD/Movies/SAW/Saw II/Saw.II.2005.DVDRiP.XViD-LEGACY.en.avi,733759488,tiny<700MiB;tokens,DVDRip|XviD,1
+Saw II,699.77,2005,/Volumes/Extreme SSD/Movies/SAW/Saw II,/Volumes/Extreme SSD/Movies/SAW/Saw II/Saw.II.2005.DVDRiP.XViD-LEGACY.en.avi,733759488,tiny<700MiB;tokens,DVDRip|XviD,1
 Scary Movie,671.73,,/Volumes/Extreme SSD/Movies/Scary Movie,/Volumes/Extreme SSD/Movies/Scary Movie/Scary Movie.avi,704356352,tiny<700MiB,,1
 Scoop,701.20,,/Volumes/Extreme SSD/Movies/Scoop,/Volumes/Extreme SSD/Movies/Scoop/Scoop[2006]DvDrip[Eng]-aXXo.avi,735264768,tokens,DVDRip,1
 Seven,544.66,,/Volumes/Extreme SSD/Movies/Seven,/Volumes/Extreme SSD/Movies/Seven/Seven.mpg,571121664,tiny<700MiB,,1
@@ -253,33 +253,33 @@ Shrek 2,697.12,,/Volumes/Extreme SSD/Movies/Shrek 2,/Volumes/Extreme SSD/Movies/
 Shutter,699.99,2004,/Volumes/Extreme SSD/Movies/Shutter (2004),/Volumes/Extreme SSD/Movies/Shutter (2004)/Shutter.mpeg,733988864,tiny<700MiB,,1
 Shutter Island,900.10,,/Volumes/Extreme SSD/Movies/Shutter Island[2010]DvDrip[Eng]-FXG,/Volumes/Extreme SSD/Movies/Shutter Island[2010]DvDrip[Eng]-FXG/Shutter Island[2010]DvDrip[Eng]-FXG.avi,943826944,tokens,DVDRip,1
 Sicko,0.00,,/Volumes/Extreme SSD/Movies/Sicko,/Volumes/Extreme SSD/Movies/Sicko/._Sicko[2007]DvDrip[Eng]-aXXo.avi,4096,tiny<700MiB;tokens,DVDRip,2
-Side Effects,700.35,,/Volumes/Extreme SSD/Movies/Side Effects,/Volumes/Extreme SSD/Movies/Side Effects/Side.Effects.2005.LiMiTED.DVDRip.XviD-PROMiSE.[www.descargasweb.net].avi,734372066,tokens,DVDRip|TS|XviD,1
+Side Effects,700.35,2005,/Volumes/Extreme SSD/Movies/Side Effects,/Volumes/Extreme SSD/Movies/Side Effects/Side.Effects.2005.LiMiTED.DVDRip.XviD-PROMiSE.[www.descargasweb.net].avi,734372066,tokens,DVDRip|TS|XviD,1
 Side.by.Side,697.41,2012,/Volumes/Extreme SSD/Movies/Side.by.Side (2012),/Volumes/Extreme SSD/Movies/Side.by.Side (2012)/geckos-sbs2012-xvid.avi,731287552,tiny<700MiB;tokens,XviD,1
 Sin City,698.86,,/Volumes/Extreme SSD/Movies/Sin City,/Volumes/Extreme SSD/Movies/Sin City/sincity-cd2.avi,732803072,tiny<700MiB,,2
 Sleepers,670.07,1996,/Volumes/Extreme SSD/Movies/Sleepers (1996) DVDRip,/Volumes/Extreme SSD/Movies/Sleepers (1996) DVDRip/Sleepers.avi,702621696,tiny<700MiB,,1
 Sleeping Beauty,0.97,1959,/Volumes/Extreme SSD/Movies/Sleeping.Beauty.1959.1080p.BluRay.H264.AAC-RARBG,/Volumes/Extreme SSD/Movies/Sleeping.Beauty.1959.1080p.BluRay.H264.AAC-RARBG/RARBG.COM.mp4,1016764,tiny<700MiB,,1
 Sleepless in Seattle,699.85,1993,/Volumes/Extreme SSD/Movies/Sleepless in Seattle,/Volumes/Extreme SSD/Movies/Sleepless in Seattle/Sleepless in Seattle (1993) [ENG] [DVDrip] CD1.avi,733847552,tiny<700MiB;tokens,DVDRip,2
 Sliding Doors,1400.94,,/Volumes/Extreme SSD/Movies/Sliding Doors,/Volumes/Extreme SSD/Movies/Sliding Doors/Sliding Doors(Xvid)(Darkside_RG).avi,1468993536,tokens,XviD,1
-Sliver,697.29,,/Volumes/Extreme SSD/Movies/Sliver,/Volumes/Extreme SSD/Movies/Sliver/Sliver.1993.UNRATED.DVDRip.XviD-PROMiSE.avi,731161280,tiny<700MiB;tokens,DVDRip|XviD,1
+Sliver,697.29,1993,/Volumes/Extreme SSD/Movies/Sliver,/Volumes/Extreme SSD/Movies/Sliver/Sliver.1993.UNRATED.DVDRip.XviD-PROMiSE.avi,731161280,tiny<700MiB;tokens,DVDRip|XviD,1
 Slumdog Millionaire,698.88,,/Volumes/Extreme SSD/Movies/Slumdog Millionaire,/Volumes/Extreme SSD/Movies/Slumdog Millionaire/Slumdog.Millionaire.DVDSCR.XviD-NoGrp.avi,732831744,tiny<700MiB;tokens,DVDScr|XviD,1
 Snatch,692.46,,/Volumes/Extreme SSD/Movies/Snatch,/Volumes/Extreme SSD/Movies/Snatch/Snatch [DivX].avi,726102016,tiny<700MiB;tokens,DivX|TC,1
 Solaris,679.01,2002,/Volumes/Extreme SSD/Movies/Solaris,/Volumes/Extreme SSD/Movies/Solaris/Solaris (2002).avi,711997440,tiny<700MiB,,1
 Sound Of My Voice,700.95,2011,/Volumes/Extreme SSD/Movies/Sound.Of.My.Voice.2011.LIMITED.BDRip.XviD-ALLiANCE,/Volumes/Extreme SSD/Movies/Sound.Of.My.Voice.2011.LIMITED.BDRip.XviD-ALLiANCE/alli-somv2012-xvid.avi,734998528,tokens,XviD,1
 Source Code,1394.78,2011,/Volumes/Extreme SSD/Movies/Source Code (2011) DVDRip XviD-MAXSPEED,/Volumes/Extreme SSD/Movies/Source Code (2011) DVDRip XviD-MAXSPEED/Source Code (2011) DVDRip XviD-MAXSPEED www.torentz.3xforum.ro.avi,1462533036,tokens,DVDRip|XviD,1
-South Park The Movie,403.59,1999,/Volumes/Extreme SSD/Movies/South Park - Bigger Longer & Uncut,/Volumes/Extreme SSD/Movies/South Park - Bigger Longer & Uncut/South Park The Movie (1999) [ENG] [DVDrip].avi,423196672,tiny<700MiB;tokens,DVDRip,1
+South Park - Bigger Longer &,403.59,1999,/Volumes/Extreme SSD/Movies/South Park - Bigger Longer & Uncut,/Volumes/Extreme SSD/Movies/South Park - Bigger Longer & Uncut/South Park The Movie (1999) [ENG] [DVDrip].avi,423196672,tiny<700MiB;tokens,DVDRip,1
 Splice,699.68,,/Volumes/Extreme SSD/Movies/Splice[2009]DvDrip[Eng]-FXG,/Volumes/Extreme SSD/Movies/Splice[2009]DvDrip[Eng]-FXG/Splice[2009]DvDrip[Eng]-FXG.avi,733667328,tiny<700MiB;tokens,DVDRip,1
 Stone,702.85,,/Volumes/Extreme SSD/Movies/Stone[2010]LIMITED BRRip XviD-ExtraTorrentRG,/Volumes/Extreme SSD/Movies/Stone[2010]LIMITED BRRip XviD-ExtraTorrentRG/Stone[2010]LIMITED BRRip XviD-ExtraTorrentRG.avi,736991544,tokens,XviD,1
 Stop-Loss,700.80,,/Volumes/Extreme SSD/Movies/Stop-Loss[2008]DvDrip-aXXo,/Volumes/Extreme SSD/Movies/Stop-Loss[2008]DvDrip-aXXo/Stop-Loss[2008]DvDrip-aXXo.avi,734844928,tokens,DVDRip,1
 Super 8,700.48,,/Volumes/Extreme SSD/Movies/Super 8 {2011} DVDRIP. Jaybob,/Volumes/Extreme SSD/Movies/Super 8 {2011} DVDRIP. Jaybob/Super 8 {2011} DVDRIP. Jaybob.avi,734503500,tokens,DVDRip,1
 Superman,680.36,,/Volumes/Extreme SSD/Movies/SUPERMAN/Superman,/Volumes/Extreme SSD/Movies/SUPERMAN/Superman/Superman.the.Movie.Dvdrip.Xvid.avi,713406464,tiny<700MiB;tokens,DVDRip|XviD,1
-Superman II,699.83,,/Volumes/Extreme SSD/Movies/SUPERMAN/Superman II,/Volumes/Extreme SSD/Movies/SUPERMAN/Superman II/Superman.II.1980.DVDRip.XviD.avi,733825024,tiny<700MiB;tokens,DVDRip|XviD,1
+Superman II,699.83,1980,/Volumes/Extreme SSD/Movies/SUPERMAN/Superman II,/Volumes/Extreme SSD/Movies/SUPERMAN/Superman II/Superman.II.1980.DVDRip.XviD.avi,733825024,tiny<700MiB;tokens,DVDRip|XviD,1
 Superman Returns,901.56,,/Volumes/Extreme SSD/Movies/SUPERMAN/Superman Returns,/Volumes/Extreme SSD/Movies/SUPERMAN/Superman Returns/Superman.Returns[2006]DvDrip[Eng]-aXXo.avi,945352704,tokens,DVDRip,1
-Tangled,700.32,,/Volumes/Extreme SSD/Movies/Tangled [2010] Dvdrip- PRESTiGE,/Volumes/Extreme SSD/Movies/Tangled [2010] Dvdrip- PRESTiGE/Tangled 2010 Dvdrip - PRESTiGE.avi,734339072,tokens,DVDRip,1
+Tangled,700.32,2010,/Volumes/Extreme SSD/Movies/Tangled [2010] Dvdrip- PRESTiGE,/Volumes/Extreme SSD/Movies/Tangled [2010] Dvdrip- PRESTiGE/Tangled 2010 Dvdrip - PRESTiGE.avi,734339072,tokens,DVDRip,1
 Tarzan,601.00,,/Volumes/Extreme SSD/Movies/Tarzan,/Volumes/Extreme SSD/Movies/Tarzan/Tarzan.avi,630194176,tiny<700MiB,,1
-Teenage Mutant Ninja Turtles,699.35,,/Volumes/Extreme SSD/Movies/TEENAGE MUTANT NINJA TURTLES/Teenage Mutant Ninja Turtles,/Volumes/Extreme SSD/Movies/TEENAGE MUTANT NINJA TURTLES/Teenage Mutant Ninja Turtles/Teenage.Mutant.Ninja.Turtles.1990.iNTERNAL.DVDRip.XVID-vRs.avi,733325312,tiny<700MiB;tokens,DVDRip|XviD,1
-Teenage Mutant Ninja Turtles II,699.84,,/Volumes/Extreme SSD/Movies/TEENAGE MUTANT NINJA TURTLES/Teenage Mutant Ninja Turtles II,/Volumes/Extreme SSD/Movies/TEENAGE MUTANT NINJA TURTLES/Teenage Mutant Ninja Turtles II/Teenage.Mutant.Ninja.Turtles.II.1991.iNTERNAL.DVDRip.XVID-vRs.avi,733831168,tiny<700MiB;tokens,DVDRip|XviD,1
-Teenage Mutant Ninja Turtles III,699.62,,/Volumes/Extreme SSD/Movies/TEENAGE MUTANT NINJA TURTLES/Teenage Mutant Ninja Turtles III,/Volumes/Extreme SSD/Movies/TEENAGE MUTANT NINJA TURTLES/Teenage Mutant Ninja Turtles III/Teenage.Mutant.Ninja.Turtles.III.1993.iNTERNAL.DVDRip.XVID-vRs.avi,733601792,tiny<700MiB;tokens,DVDRip|XviD,1
-The Terminator 3,699.12,,/Volumes/Extreme SSD/Movies/TERMINATOR - Collection/The Terminator 3,/Volumes/Extreme SSD/Movies/TERMINATOR - Collection/The Terminator 3/The.Terminator.3.2003.iNTERNAL.DVDRip.XviD.2-XviK.avi,733079552,tiny<700MiB;tokens,DVDRip|XviD,2
+Teenage Mutant Ninja Turtles,699.35,1990,/Volumes/Extreme SSD/Movies/TEENAGE MUTANT NINJA TURTLES/Teenage Mutant Ninja Turtles,/Volumes/Extreme SSD/Movies/TEENAGE MUTANT NINJA TURTLES/Teenage Mutant Ninja Turtles/Teenage.Mutant.Ninja.Turtles.1990.iNTERNAL.DVDRip.XVID-vRs.avi,733325312,tiny<700MiB;tokens,DVDRip|XviD,1
+Teenage Mutant Ninja Turtles II,699.84,1991,/Volumes/Extreme SSD/Movies/TEENAGE MUTANT NINJA TURTLES/Teenage Mutant Ninja Turtles II,/Volumes/Extreme SSD/Movies/TEENAGE MUTANT NINJA TURTLES/Teenage Mutant Ninja Turtles II/Teenage.Mutant.Ninja.Turtles.II.1991.iNTERNAL.DVDRip.XVID-vRs.avi,733831168,tiny<700MiB;tokens,DVDRip|XviD,1
+Teenage Mutant Ninja Turtles III,699.62,1993,/Volumes/Extreme SSD/Movies/TEENAGE MUTANT NINJA TURTLES/Teenage Mutant Ninja Turtles III,/Volumes/Extreme SSD/Movies/TEENAGE MUTANT NINJA TURTLES/Teenage Mutant Ninja Turtles III/Teenage.Mutant.Ninja.Turtles.III.1993.iNTERNAL.DVDRip.XVID-vRs.avi,733601792,tiny<700MiB;tokens,DVDRip|XviD,1
+The Terminator 3,699.12,2003,/Volumes/Extreme SSD/Movies/TERMINATOR - Collection/The Terminator 3,/Volumes/Extreme SSD/Movies/TERMINATOR - Collection/The Terminator 3/The.Terminator.3.2003.iNTERNAL.DVDRip.XviD.2-XviK.avi,733079552,tiny<700MiB;tokens,DVDRip|XviD,2
 Thank You For Smoking,0.00,,/Volumes/Extreme SSD/Movies/Thank You For Smoking,/Volumes/Extreme SSD/Movies/Thank You For Smoking/._Thank.You.For.Smoking[2005]DvDrip.AC3[Eng]-aXXo.avi,4096,tiny<700MiB;tokens,DVDRip,2
 The American,700.46,,/Volumes/Extreme SSD/Movies/The American[2010]DvDrip[Eng]-FXG,/Volumes/Extreme SSD/Movies/The American[2010]DvDrip[Eng]-FXG/The American[2010]DvDrip[Eng]-FXG.avi,734486528,tokens,DVDRip,1
 The Animatrix,699.31,,/Volumes/Extreme SSD/Movies/The Animatrix,/Volumes/Extreme SSD/Movies/The Animatrix/The_Animatrix.[2003].DVDRip.H264.640x272.kk.avi,733280256,tiny<700MiB;tokens,DVDRip,1
@@ -287,7 +287,7 @@ The Ant Bully,700.91,,/Volumes/Extreme SSD/Movies/The Ant Bully,/Volumes/Extreme
 The Art Of War,687.21,,/Volumes/Extreme SSD/Movies/The Art Of War,/Volumes/Extreme SSD/Movies/The Art Of War/The Art Of War [DivX].avi,720588800,tiny<700MiB;tokens,DivX,1
 The Beatles -  A Hard Days Night,650.16,1964,/Volumes/Extreme SSD/Movies/The Beatles -  A Hard Days Night (1964),/Volumes/Extreme SSD/Movies/The Beatles -  A Hard Days Night (1964)/Beatles.Hard.Days.Night.(sinfamous).XviD.avi,681740288,tiny<700MiB;tokens,XviD,1
 The Boondock Saints,696.15,1999,/Volumes/Extreme SSD/Movies/The Boondock Saints (1999),/Volumes/Extreme SSD/Movies/The Boondock Saints (1999)/The Boondocks Saints.avi,729968640,tiny<700MiB;tokens,TS,1
-The Butterfly Effect 2,700.94,,/Volumes/Extreme SSD/Movies/The Butterfly Effect 2,/Volumes/Extreme SSD/Movies/The Butterfly Effect 2/the butterfly effect 2 2006 dvdrip.avi,734990336,tokens,DVDRip,1
+The Butterfly Effect 2,700.94,2006,/Volumes/Extreme SSD/Movies/The Butterfly Effect 2,/Volumes/Extreme SSD/Movies/The Butterfly Effect 2/the butterfly effect 2 2006 dvdrip.avi,734990336,tokens,DVDRip,1
 "The Chronicles Of Narnia - The Lion, The Witch And The Wardrobe",622.70,,"/Volumes/Extreme SSD/Movies/The Chronicles Of Narnia - The Lion, The Witch And The Wardrobe","/Volumes/Extreme SSD/Movies/The Chronicles Of Narnia - The Lion, The Witch And The Wardrobe/The.Chronicles.Of.Narnia-The.Lion.the.Witch.and.the.Wardrobe[2005]DvDrip[Eng]CD2-aXXo.avi",652951552,tiny<700MiB;tokens,DVDRip|TC,2
 The Curious Case of Benjamin Button,960.15,,/Volumes/Extreme SSD/Movies/The Curious Case of Benjamin Button[2008]DvDrip[Eng]-FXG,/Volumes/Extreme SSD/Movies/The Curious Case of Benjamin Button[2008]DvDrip[Eng]-FXG/The Curious Case of Benjamin Button[2008]DvDrip[Eng]-FXG.avi,1006792704,tokens,DVDRip,1
 The Da Vinci code,801.35,,/Volumes/Extreme SSD/Movies/The Da Vinci code,/Volumes/Extreme SSD/Movies/The Da Vinci code/The.Da.Vinci.Code[2006]DvDrip[Eng]-aXXo.avi,840271872,tokens,DVDRip,1
@@ -298,7 +298,7 @@ The Descendants,698.86,,/Volumes/Extreme SSD/Movies/The Descendants {2011} DVDRI
 The Descent,699.97,,/Volumes/Extreme SSD/Movies/The Descent,/Volumes/Extreme SSD/Movies/The Descent/The.Descent[2005]DvDrip.AC3[Eng]-aXXo.avi,733968384,tiny<700MiB;tokens,DVDRip,1
 The Devil Wears Prada,700.83,,/Volumes/Extreme SSD/Movies/The Devil Wears Prada[2006]DvDrip[Eng]-aXXo,/Volumes/Extreme SSD/Movies/The Devil Wears Prada[2006]DvDrip[Eng]-aXXo/The.Devil.Wears.Prada[2006]DvDrip[Eng]-aXXo.avi,734873600,tokens,DVDRip,1
 The Disappearance of Alice Creed,699.98,2009,/Volumes/Extreme SSD/Movies/The Disappearance of Alice Creed.2009.DVDRip.XviD,/Volumes/Extreme SSD/Movies/The Disappearance of Alice Creed.2009.DVDRip.XviD/The.Disappearance.of.Alice.Creed.2009.DVDRip.XviD-SDTV.avi,733986816,tiny<700MiB;tokens,DVDRip|SDTV|XviD,1
-The Edge of Love,700.89,,/Volumes/Extreme SSD/Movies/The Edge of Love,/Volumes/Extreme SSD/Movies/The Edge of Love/The.Edge.Of.Love.2008.DvDRip-FxM.avi,734941184,tokens,DVDRip,1
+The Edge of Love,700.89,2008,/Volumes/Extreme SSD/Movies/The Edge of Love,/Volumes/Extreme SSD/Movies/The Edge of Love/The.Edge.Of.Love.2008.DvDRip-FxM.avi,734941184,tokens,DVDRip,1
 The Elephant Man,695.34,1980,/Volumes/Extreme SSD/Movies/The Elephant Man (1980),/Volumes/Extreme SSD/Movies/The Elephant Man (1980)/The.Elephant.Man.avi,729118720,tiny<700MiB,,1
 The English Patient,799.61,,/Volumes/Extreme SSD/Movies/The English Patient,/Volumes/Extreme SSD/Movies/The English Patient/The.English.Patient[Eng]Dvdrip.Dino.avi,838451200,tokens,DVDRip,1
 The Expendables,699.77,,/Volumes/Extreme SSD/Movies/The Expendables[2010]DvDrip[Eng]-FXG,/Volumes/Extreme SSD/Movies/The Expendables[2010]DvDrip[Eng]-FXG/The Expendables[2010]DvDrip[Eng]-FXG.avi,733759488,tiny<700MiB;tokens,DVDRip,1
@@ -313,19 +313,19 @@ The Green Mile,699.96,,/Volumes/Extreme SSD/Movies/The Green Mile,/Volumes/Extre
 The Hills Have Eyes,699.76,2006,/Volumes/Extreme SSD/Movies/The Hills Have Eyes (2006),/Volumes/Extreme SSD/Movies/The Hills Have Eyes (2006)/The.Hills.Have.Eyes[2006][Unrated.Edition]DvDrip[Eng]-aXXo.avi,733753344,tiny<700MiB;tokens,DVDRip,1
 The Hole,701.37,,/Volumes/Extreme SSD/Movies/The Hole,/Volumes/Extreme SSD/Movies/The Hole/The.Hole[2001]DvDrip[Eng]-aXXo.avi,735438848,tokens,DVDRip,1
 The Hunger Games,451.62,2012,/Volumes/Extreme SSD/Movies/The Hunger Games 2012 BRRip 450MB x264 AAC - VYTO [P2PDL],/Volumes/Extreme SSD/Movies/The Hunger Games 2012 BRRip 450MB x264 AAC - VYTO [P2PDL]/The Hunger Games 2012 BRRip 450MB x264 AAC - VYTO [P2PDL].mkv,473560784,tiny<700MiB,,1
-The Hurt Locker,978.88,,/Volumes/Extreme SSD/Movies/The Hurt Locker,/Volumes/Extreme SSD/Movies/The Hurt Locker/The Hurt Locker DVD eng 2008 [switch].avi,1026433262,tokens,TC,1
+The Hurt Locker,978.88,2008,/Volumes/Extreme SSD/Movies/The Hurt Locker,/Volumes/Extreme SSD/Movies/The Hurt Locker/The Hurt Locker DVD eng 2008 [switch].avi,1026433262,tokens,TC,1
 The Ides of March,700.16,,/Volumes/Extreme SSD/Movies/The Ides of March DVDRip.XviD-DEFACED,/Volumes/Extreme SSD/Movies/The Ides of March DVDRip.XviD-DEFACED/def-idesmarch-xvid.avi,734173184,tokens,XviD,1
 The Illusionist,700.19,,/Volumes/Extreme SSD/Movies/The Illusionist,/Volumes/Extreme SSD/Movies/The Illusionist/The.Illusionist.DVDRip.XviD-DiAMOND.[www.torrentfive.com].avi,734203904,tokens,DVDRip|XviD,1
 The Imaginarium of Doctor Parnassus,799.38,,/Volumes/Extreme SSD/Movies/The Imaginarium of Doctor Parnassus[2009]DvDrip[Eng]-FXG,/Volumes/Extreme SSD/Movies/The Imaginarium of Doctor Parnassus[2009]DvDrip[Eng]-FXG/The Imaginarium of Doctor Parnassus[2009]DvDrip[Eng]-FXG.avi,838211584,tokens,DVDRip,1
 The Insider,699.40,,/Volumes/Extreme SSD/Movies/The Insider,/Volumes/Extreme SSD/Movies/The Insider/The Insider.avi,733374464,tiny<700MiB,,1
 The Iron Giant,678.83,,/Volumes/Extreme SSD/Movies/The Iron Giant,/Volumes/Extreme SSD/Movies/The Iron Giant/The Iron Giant.avi,711806002,tiny<700MiB,,1
 The Island,700.77,,/Volumes/Extreme SSD/Movies/The Island,/Volumes/Extreme SSD/Movies/The Island/The.Island[2005]DvDrip[Eng]-aXXo.avi,734810112,tokens,DVDRip,1
-The Island President,696.69,,/Volumes/Extreme SSD/Movies/The Island President,/Volumes/Extreme SSD/Movies/The Island President/The Island President 2011 DVDRip XviD-IGUANA.avi,730535936,tiny<700MiB;tokens,DVDRip|XviD,1
+The Island President,696.69,2011,/Volumes/Extreme SSD/Movies/The Island President,/Volumes/Extreme SSD/Movies/The Island President/The Island President 2011 DVDRip XviD-IGUANA.avi,730535936,tiny<700MiB;tokens,DVDRip|XviD,1
 The Italian Job,702.09,2003,/Volumes/Extreme SSD/Movies/The Italian Job,/Volumes/Extreme SSD/Movies/The Italian Job/The Italian Job (2003) DVDrip.avi,736192512,tokens,DVDRip,1
 The Jacket,700.62,,/Volumes/Extreme SSD/Movies/The Jacket,/Volumes/Extreme SSD/Movies/The Jacket/The.Jacket.DVDRiP.XViD-DiAMOND.ShareVirus.avi,734654464,tokens,DVDRip|XviD,1
 Jurassic Park III,699.99,,/Volumes/Extreme SSD/Movies/THE JURASSIC PARK - Trilogy/Jurassic Park III,/Volumes/Extreme SSD/Movies/THE JURASSIC PARK - Trilogy/Jurassic Park III/Jurassic Park III dvd rip xvid.Rets.avi,733995008,tiny<700MiB;tokens,TS|XviD,1
 The Lost World - Jurassic Park,699.66,,/Volumes/Extreme SSD/Movies/THE JURASSIC PARK - Trilogy/The Lost World - Jurassic Park,/Volumes/Extreme SSD/Movies/THE JURASSIC PARK - Trilogy/The Lost World - Jurassic Park/The Lost World dvd rip xvid.Rets.avi,733642752,tiny<700MiB;tokens,TS|XviD,1
-The King's Speech,1001.39,,/Volumes/Extreme SSD/Movies/The King's Speech,/Volumes/Extreme SSD/Movies/The King's Speech/THE KING'S SPEECH - 2010 - [DvDrip] - Xvid - avi - rdsbelt.AVI,1050028308,tokens,DVDRip|XviD,1
+The King's Speech,1001.39,2010,/Volumes/Extreme SSD/Movies/The King's Speech,/Volumes/Extreme SSD/Movies/The King's Speech/THE KING'S SPEECH - 2010 - [DvDrip] - Xvid - avi - rdsbelt.AVI,1050028308,tokens,DVDRip|XviD,1
 The Kingdom,349.91,2007,/Volumes/Extreme SSD/Movies/The Kingdom 2007 BRRip 350MB x264 AAC - VYTO,/Volumes/Extreme SSD/Movies/The Kingdom 2007 BRRip 350MB x264 AAC - VYTO/The Kingdom 2007 BRRip 350MB x264 AAC - VYTO.mkv,366906216,tiny<700MiB,,1
 The Last Picture Show,700.00,1971,/Volumes/Extreme SSD/Movies/The Last Picture Show (1971),"/Volumes/Extreme SSD/Movies/The Last Picture Show (1971)/The Last Picture Show (Peter Bogdanovich, 1971).avi",734001152,tiny<700MiB,,1
 The Lincoln Lawyer,702.31,,/Volumes/Extreme SSD/Movies/The Lincoln Lawyer [2011] BRRiP XviD - ExtraTorrentRG,/Volumes/Extreme SSD/Movies/The Lincoln Lawyer [2011] BRRiP XviD - ExtraTorrentRG/The Lincoln Lawyer [2011] BRRiP XviD - ExtraTorrentRG.avi,736430516,tokens,XviD,1
@@ -337,24 +337,24 @@ The Next Three Days,1148.18,2010,/Volumes/Extreme SSD/Movies/The Next Three Days
 The Nightmare Before Christmas,700.14,,/Volumes/Extreme SSD/Movies/The Nightmare Before Christmas,/Volumes/Extreme SSD/Movies/The Nightmare Before Christmas/The Nightmare Before Christmas.dvdrip.xvid.ac3.avi,734145564,tokens,DVDRip|XviD,1
 The Notebook,700.26,2004,/Volumes/Extreme SSD/Movies/The Notebook,/Volumes/Extreme SSD/Movies/The Notebook/The Notebook (2004) [ENG] [DVDrip].avi,734271488,tokens,DVDRip,1
 The Omen,701.69,2006,/Volumes/Extreme SSD/Movies/The Omen (2006),/Volumes/Extreme SSD/Movies/The Omen (2006)/The.Omen[2006]DvDrip[Eng]-aXXo.avi,735776768,tokens,DVDRip,1
-The Others,691.60,,/Volumes/Extreme SSD/Movies/The Others,/Volumes/Extreme SSD/Movies/The Others/The.Others.2001.WS.Collectors.Edition.DVDRip.XViD.iNT-x0DuS.[www.torrentfive.com].avi,725194752,tiny<700MiB;tokens,DVDRip|XviD,1
-The Pacifier,699.89,,/Volumes/Extreme SSD/Movies/The Pacifier,/Volumes/Extreme SSD/Movies/The Pacifier/The.Pacifier.DVDRip.XviD-2005.[www.descargasweb.net].avi,733888512,tiny<700MiB;tokens,DVDRip|XviD,1
+The Others,691.60,2001,/Volumes/Extreme SSD/Movies/The Others,/Volumes/Extreme SSD/Movies/The Others/The.Others.2001.WS.Collectors.Edition.DVDRip.XViD.iNT-x0DuS.[www.torrentfive.com].avi,725194752,tiny<700MiB;tokens,DVDRip|XviD,1
+The Pacifier,699.89,2005,/Volumes/Extreme SSD/Movies/The Pacifier,/Volumes/Extreme SSD/Movies/The Pacifier/The.Pacifier.DVDRip.XviD-2005.[www.descargasweb.net].avi,733888512,tiny<700MiB;tokens,DVDRip|XviD,1
 The Pirates Band of Misfits,697.05,2012,/Volumes/Extreme SSD/Movies/The Pirates Band of Misfits.2012.DVDRip.XviD-PTpOWeR,/Volumes/Extreme SSD/Movies/The Pirates Band of Misfits.2012.DVDRip.XviD-PTpOWeR/[UsaBit.com] - The.Pirates.Band.of.Misfits.2012.DVDRip.XviD-PTpOWeR.avi,730912768,tiny<700MiB;tokens,DVDRip|TS|XviD,1
 The Prestige,700.74,,/Volumes/Extreme SSD/Movies/The Prestige,/Volumes/Extreme SSD/Movies/The Prestige/The.Prestige[2006]DvDrip[Eng]-aXXo.avi,734777344,tokens,DVDRip,1
 The Princess Bride,696.44,1987,/Volumes/Extreme SSD/Movies/The Princess Bride (1987),/Volumes/Extreme SSD/Movies/The Princess Bride (1987)/The Princess Bride (Widescreen).avi,730265600,tiny<700MiB,,1
 The Quick and The Dead,698.92,,/Volumes/Extreme SSD/Movies/The Quick and The Dead,/Volumes/Extreme SSD/Movies/The Quick and The Dead/The Quick And The Dead.mpeg,732870656,tiny<700MiB,,1
-The Ring Two,699.88,,/Volumes/Extreme SSD/Movies/The Ring Two,/Volumes/Extreme SSD/Movies/The Ring Two/The.Ring.Two.DVDRip.XviD-2005.[www.descargasweb.net].avi,733872128,tiny<700MiB;tokens,DVDRip|XviD,1
+The Ring Two,699.88,2005,/Volumes/Extreme SSD/Movies/The Ring Two,/Volumes/Extreme SSD/Movies/The Ring Two/The.Ring.Two.DVDRip.XviD-2005.[www.descargasweb.net].avi,733872128,tiny<700MiB;tokens,DVDRip|XviD,1
 The Road to Guantanamo,697.32,2006,/Volumes/Extreme SSD/Movies/The Road to Guantanamo (2006),/Volumes/Extreme SSD/Movies/The Road to Guantanamo (2006)/The Road to Guantanamo (2006) PROMiSE_DVDrip.avi,731193998,tiny<700MiB;tokens,DVDRip,1
 The Silence of the Lambs,700.00,,/Volumes/Extreme SSD/Movies/The Silence of the Lambs,/Volumes/Extreme SSD/Movies/The Silence of the Lambs/The.Silence.of.the.Lambs.DVDRiP.XviDroot.avi,734003200,tokens,DVDRip|XviD,1
-The.Sixth.Sense,699.31,1999,/Volumes/Extreme SSD/Movies/The Sixth Sense,/Volumes/Extreme SSD/Movies/The Sixth Sense/The.Sixth.Sense (1999).mpeg,733282304,tiny<700MiB,,1
+The Sixth Sense,699.31,1999,/Volumes/Extreme SSD/Movies/The Sixth Sense,/Volumes/Extreme SSD/Movies/The Sixth Sense/The.Sixth.Sense (1999).mpeg,733282304,tiny<700MiB,,1
 The Social Network,824.56,,/Volumes/Extreme SSD/Movies/The Social Network[2010]DvDrip[Eng]-FXG,/Volumes/Extreme SSD/Movies/The Social Network[2010]DvDrip[Eng]-FXG/The Social Network[2010]DvDrip[Eng]-FXG.avi,864618496,tokens,DVDRip,1
-The Stepfather,700.74,,/Volumes/Extreme SSD/Movies/The Stepfather,/Volumes/Extreme SSD/Movies/The Stepfather/The Stepfather.2009.DvdRip.Unrated.Xvid {1337x}-Noir.avi,734775890,tokens,DVDRip|XviD,1
+The Stepfather,700.74,2009,/Volumes/Extreme SSD/Movies/The Stepfather,/Volumes/Extreme SSD/Movies/The Stepfather/The Stepfather.2009.DvdRip.Unrated.Xvid {1337x}-Noir.avi,734775890,tokens,DVDRip|XviD,1
 The Tailor of Panama,701.68,,/Volumes/Extreme SSD/Movies/The Tailor of Panama,/Volumes/Extreme SSD/Movies/The Tailor of Panama/The.Tailor.of.Panama.[2001].DvDrip.[Eng]-aXXo.avi,735760384,tokens,DVDRip,1
 The Time Traveler's Wife,1007.85,,/Volumes/Extreme SSD/Movies/The Time Traveler's Wife,/Volumes/Extreme SSD/Movies/The Time Traveler's Wife/The Time Traveler's Wife {2009} DVDRIP. Jaybob.avi,1056806304,tokens,DVDRip,1
 The Truman Show,667.33,,/Volumes/Extreme SSD/Movies/The Truman Show,/Volumes/Extreme SSD/Movies/The Truman Show/the truman show.avi,699750400,tiny<700MiB,,1
 The Usual Suspects,700.27,1995,/Volumes/Extreme SSD/Movies/The Usual Suspects (1995),/Volumes/Extreme SSD/Movies/The Usual Suspects (1995)/The Usual Suspects(1995).mpeg,734281728,tokens,TS,1
 The Village,696.54,,/Volumes/Extreme SSD/Movies/The Village,/Volumes/Extreme SSD/Movies/The Village/The Village.avi,730378240,tiny<700MiB,,1
-The Whistleblower,694.84,,/Volumes/Extreme SSD/Movies/The Whistleblower,/Volumes/Extreme SSD/Movies/The Whistleblower/The.Whistleblower.2010.DVDRip.Xvid-SceneLovers.(UsaBit.com).avi,728590336,tiny<700MiB;tokens,DVDRip|XviD,1
+The Whistleblower,694.84,2010,/Volumes/Extreme SSD/Movies/The Whistleblower,/Volumes/Extreme SSD/Movies/The Whistleblower/The.Whistleblower.2010.DVDRip.Xvid-SceneLovers.(UsaBit.com).avi,728590336,tiny<700MiB;tokens,DVDRip|XviD,1
 The Whole Nine Yards,699.94,,/Volumes/Extreme SSD/Movies/The Whole Nine Yards,/Volumes/Extreme SSD/Movies/The Whole Nine Yards/The.Whole.Nine.Yards.DVD.Rip.XviD.avi,733937664,tiny<700MiB;tokens,XviD,1
 The Whole Ten Yards,700.23,,/Volumes/Extreme SSD/Movies/The Whole Ten Yards,/Volumes/Extreme SSD/Movies/The Whole Ten Yards/The.Whole. Ten.Yards. DVDRiP.avi,734244864,tokens,DVDRip,1
 The Wild,699.66,,/Volumes/Extreme SSD/Movies/The Wild,/Volumes/Extreme SSD/Movies/The Wild/The.Wild[2006]DvDrip.AC3[Eng]-aXXo.avi,733650944,tiny<700MiB;tokens,DVDRip,1
@@ -391,11 +391,11 @@ Wallace and Gromit-The Wrong Trouses,350.01,,/Volumes/Extreme SSD/Movies/WALLACE
 War Horse,698.88,,/Volumes/Extreme SSD/Movies/War Horse  {2011} DVDRIP. Jaybob,/Volumes/Extreme SSD/Movies/War Horse  {2011} DVDRIP. Jaybob/War Horse  {2011} DVDRIP. Jaybob.avi,732829774,tiny<700MiB;tokens,DVDRip,1
 When Harry Met sally,700.08,,/Volumes/Extreme SSD/Movies/When Harry Met sally,/Volumes/Extreme SSD/Movies/When Harry Met sally/When Harry Met Sally [DivX-DVD] english.avi,734083072,tokens,DivX,1
 Who is Dayani Cristal DVB Rip,700.48,,/Volumes/Extreme SSD/Movies/Who is Dayani Cristal [2013] DVB Rip Xvid [StB],/Volumes/Extreme SSD/Movies/Who is Dayani Cristal [2013] DVB Rip Xvid [StB]/Who is Dayani Cristal [2013] DVB Rip Xvid [StB].avi,734511726,tokens,XviD,1
-Wild Things UnRated,696.36,1998,/Volumes/Extreme SSD/Movies/WILD THINGS/Wild Things,/Volumes/Extreme SSD/Movies/WILD THINGS/Wild Things/Wild Things UnRated (1998) XviD.DVDRip.PiLFER.avi,730187776,tiny<700MiB;tokens,DVDRip|XviD,1
+Wild Things,696.36,1998,/Volumes/Extreme SSD/Movies/WILD THINGS/Wild Things,/Volumes/Extreme SSD/Movies/WILD THINGS/Wild Things/Wild Things UnRated (1998) XviD.DVDRip.PiLFER.avi,730187776,tiny<700MiB;tokens,DVDRip|XviD,1
 Winters Bone,700.75,2010,/Volumes/Extreme SSD/Movies/Winters.Bone.2010.LIMITED.DVDRip.XviD-AMIABLE,/Volumes/Extreme SSD/Movies/Winters.Bone.2010.LIMITED.DVDRip.XviD-AMIABLE/UsaBit.com_winters.bone.2010.dvdrip.xvid-amiable.avi,734785536,tokens,DVDRip|XviD,1
 World Trade Center,700.61,,/Volumes/Extreme SSD/Movies/World Trade Center,/Volumes/Extreme SSD/Movies/World Trade Center/World.Trade.Center[2006]DvDrip[Eng]-aXXo.avi,734646272,tokens,DVDRip,1
 X-Men,0.00,2000,/Volumes/Extreme SSD/Movies/X-MEN/X-Men (2000),/Volumes/Extreme SSD/Movies/X-MEN/X-Men (2000)/._X-Men_1_2000_900p_BluRay_QEBS6_AAC20_MP4-FASM.mp4,4096,tiny<700MiB,,1
 X-Men Origins Wolverine,1021.98,2009,/Volumes/Extreme SSD/Movies/X-MEN/X-Men.Origins.Wolverine.2009.WORKPRINT.XviD-NoGRP,/Volumes/Extreme SSD/Movies/X-MEN/X-Men.Origins.Wolverine.2009.WORKPRINT.XviD-NoGRP/X-Men.Origins.Wolverine.2009.WORKPRINT.XviD-NoGRP.avi,1071620966,tokens,XviD,1
 XXX,799.86,2002,/Volumes/Extreme SSD/Movies/XXX (2002),/Volumes/Extreme SSD/Movies/XXX (2002)/XXX Unrated Directors Cut 2002 DvDrip[Eng]-greenbud1969.avi,838717440,tokens,DVDRip,1
-xXx The Next Level,0.00,,/Volumes/Extreme SSD/Movies/xXx The Next Level,/Volumes/Extreme SSD/Movies/xXx The Next Level/._XXX.State.Of.The.Union.2005.DVDRip.XviD-iMBT.avi,4096,tiny<700MiB;tokens,DVDRip|XviD,2
+xXx The Next Level,0.00,2005,/Volumes/Extreme SSD/Movies/xXx The Next Level,/Volumes/Extreme SSD/Movies/xXx The Next Level/._XXX.State.Of.The.Union.2005.DVDRip.XviD-iMBT.avi,4096,tiny<700MiB;tokens,DVDRip|XviD,2
 Zeitgeist-The Movie,700.22,,/Volumes/Extreme SSD/Movies/Zeitgeist-The.Movie,/Volumes/Extreme SSD/Movies/Zeitgeist-The.Movie/Zeitgeist-The.Movie.PROPER.SWESUB.DVDRip.XviD-aNdY.avi,734232576,tokens,DVDRip|XviD,1
