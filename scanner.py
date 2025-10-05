@@ -5,19 +5,14 @@ import os
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable, List, Optional, Set, Tuple
+from typing import Dict, Iterable, List, Optional, Set, Tuple
 
 
 GOOD_TITLE_RE = re.compile(r"^(?P<title>.+?)\s*\((?P<year>\d{4})\)")
 
-# Built-in default ignore list (case-insensitive basenames)
+# Minimal built-in ignore list for system metadata only (case-insensitive)
 DEFAULT_IGNORE_DIRS: Set[str] = {
-    "subs", "subtitles", "sub", "subtitle",
-    "sample", "samples", "extras", "featurettes", "trailers",
-    "art", "artwork", "posters", "covers", "metadata",
-    ".appledouble", ".ds_store", "@eadir", "recycle.bin", "lost+found",
-    "plex versions", "plex versions (optimized)",
-    ".actors", "other",
+    ".appledouble", ".ds_store", "@eadir", "recycle.bin", "lost+found", ".git",
 }
 
 
@@ -103,6 +98,11 @@ def scan_library(
     lowq_rows: List[VideoEntry] = []
     lost_rows: List[Tuple[Path, str, int, int]] = []  # (folder, reason, file_count, video_count)
 
+    # Track directories that contain any non-zero-length video directly
+    has_nonzero_video: Dict[Path, bool] = {}
+    # Track whether any ancestor (parent chain) contains a non-zero-length video
+    ancestor_has_video: Dict[Path, bool] = {}
+
     tiny_bytes = tiny_mib * 1024 * 1024
 
     for d in _iter_dirs(root, ignores):
@@ -111,13 +111,23 @@ def scan_library(
         vids = [p for p in files if _is_video(p, vexts)]
         subs = [p for p in files if _is_subtitle(p, sexts)]
 
+        # compute direct non-zero video presence for current directory
+        nonzero_vids = [p for p in vids if p.stat().st_size > 0]
+        has_nonzero_video[d] = len(nonzero_vids) > 0
+        # compute ancestor_has_video by inheriting from parent
+        parent = d.parent if d != root else None
+        ancestor_has_video[d] = False
+        if parent is not None:
+            ancestor_has_video[d] = has_nonzero_video.get(parent, False) or ancestor_has_video.get(parent, False)
+
         # Determine "lost" leaf folders: no subdirs and no non-zero-length videos
         has_child_dirs = any(c.is_dir() for c in d.iterdir())
         if not has_child_dirs:
-            nonzero_vids = [p for p in vids if p.stat().st_size > 0]
             if len(nonzero_vids) == 0:
-                reason = "no_videos" if len(vids) == 0 else "zero_byte_videos_only"
-                lost_rows.append((d, reason, len(files), len(vids)))
+                # Skip if any ancestor directory already contains a valid video
+                if not ancestor_has_video.get(d, False):
+                    reason = "no_videos" if len(vids) == 0 else "zero_byte_videos_only"
+                    lost_rows.append((d, reason, len(files), len(vids)))
 
         # flag low-quality videos in any folder
         for v in vids:
