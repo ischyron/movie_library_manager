@@ -1,5 +1,5 @@
 [project]
-name = "media-hygiene"
+name = "movie-library-manager"
 version = "0.1.0"
 description = "Scan movie libraries for low-quality/lost items and query YTS replacements."
 readme = "README.md"
@@ -9,4 +9,4 @@ dependencies = [
 ]
 
 [project.scripts]
-media-hygiene = "cli:main"
+movie-library-manager = "cli:main"

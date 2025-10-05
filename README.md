@@ -1,4 +1,4 @@
-Media Hygiene Agents — Movie Library Scanner
+Movie Library Manager — Movie Library Scanner
 
 Overview
 - Scans a movie library to find likely low-quality encodes and "lost" leaf folders that contain no valid videos (or only 0-byte videos).
@@ -32,4 +32,4 @@ Notes
 
 
 Installed entry point
-- After installing via pip, the command `media-hygiene` runs the same CLI.
+- After installing via pip, the command `movie-library-manager` runs the same CLI.
