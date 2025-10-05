@@ -9,5 +9,4 @@ dependencies = [
 ]
 
 [project.scripts]
-media-hygiene = "media_hygiene.cli:main"
-
+media-hygiene = "cli:main"

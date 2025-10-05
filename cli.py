@@ -2,8 +2,8 @@ import argparse
 import sys
 from pathlib import Path
 
-from .scanner import scan_library
-from .yts import yts_lookup_from_csv
+from scanner import scan_library
+from yts import yts_lookup_from_csv
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -88,4 +88,3 @@ def main(argv=None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
