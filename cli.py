@@ -52,7 +52,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     sp.add_argument(
         "--ignore-dirs",
-        default="subs,subtitles,sample,samples,extras,featurettes,trailers,art,artwork,posters,covers,metadata,.AppleDouble,.DS_Store,@eaDir,recycle.bin,lost+found,plex versions",
+        default="subs,subtitles,sample,samples,extras,featurettes,trailers,art,artwork,posters,covers,metadata,.AppleDouble,.DS_Store,@eaDir,recycle.bin,lost+found,plex versions,.actors,other",
         help="Comma-separated directory names to ignore (case-insensitive)",
     )
 

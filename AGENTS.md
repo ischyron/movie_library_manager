@@ -10,7 +10,7 @@ Artifacts (git-managed)
 Heuristics (scan)
 - Video extensions: mkv, mp4, avi, m4v, mov, wmv, mpg, mpeg, ts, m2ts, vob, iso
 - Subtitle extensions: srt, sub, idx, ass, ssa, vtt
-- Ignore dirs (case-insensitive): subs, subtitles, sample, samples, extras, featurettes, trailers, art, artwork, posters, covers, metadata, .AppleDouble, .DS_Store, @eaDir, recycle.bin, lost+found, plex versions
+- Ignore dirs (case-insensitive): subs, subtitles, sample, samples, extras, featurettes, trailers, art, artwork, posters, covers, metadata, .AppleDouble, .DS_Store, @eaDir, recycle.bin, lost+found, plex versions, .actors, other
 - Good-enough tokens: 720p, 1024p, 1080p, 1440p, 2160p, 4K, UHD, REMUX
 - Low-quality tokens: DivX, XviD, CAM, TS, TC, DVDScr, DVDRip, R5, 360p, 480p, HDCAM, SDTV, PDTV
 - Tiny threshold: 700 MiB (flag when < threshold and no good-enough token)
