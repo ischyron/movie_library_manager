@@ -202,29 +202,37 @@ def scan_library(
 
         # flag low-quality videos in any folder (but skip collection containers)
         if not is_collection_container:
-            for v in vids:
-                try:
-                    size = v.stat().st_size
-                except FileNotFoundError:
-                    continue
+            # Folder-level gate: if this folder clearly contains a valid movie
+            # (any video >= tiny_mib) OR folder/video names include good tokens
+            # like 1080p/2160p/REMUX, then do NOT flag tiny artifacts inside.
+            folder_good = bool(_match_tokens(d.name, good_tokens))
+            name_good = any(_match_tokens(p.name, good_tokens) for p in vids)
+            has_large_video = any((p.stat().st_size >= tiny_bytes) for p in vids if p.exists())
 
-                name = v.name
-                good = _match_tokens(name, good_tokens)
-                lowq = _match_tokens(name, lowq_tokens)
+            if not (folder_good or name_good or has_large_video):
+                for v in vids:
+                    try:
+                        size = v.stat().st_size
+                    except FileNotFoundError:
+                        continue
 
-                reason_parts = []
-                if good:
-                    pass
-                else:
-                    if size < tiny_bytes:
-                        reason_parts.append(f"tiny<{tiny_mib}MiB")
-                    if lowq:
-                        reason_parts.append("tokens")
+                    name = v.name
+                    good = _match_tokens(name, good_tokens)
+                    lowq = _match_tokens(name, lowq_tokens)
 
-                if reason_parts:
-                    lowq_rows.append(
-                        VideoEntry(path=v, size_bytes=size, reason=";".join(reason_parts), tokens_matched=lowq)
-                    )
+                    reason_parts = []
+                    if good:
+                        pass
+                    else:
+                        if size < tiny_bytes:
+                            reason_parts.append(f"tiny<{tiny_mib}MiB")
+                        if lowq:
+                            reason_parts.append("tokens")
+
+                    if reason_parts:
+                        lowq_rows.append(
+                            VideoEntry(path=v, size_bytes=size, reason=";".join(reason_parts), tokens_matched=lowq)
+                        )
 
     # Aggregate low-quality entries by movie folder (one folder = one movie)
     by_folder: Dict[Path, VideoEntry] = {}
