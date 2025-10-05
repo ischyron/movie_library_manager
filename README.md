@@ -20,11 +20,10 @@ Heuristics (defaults; configurable via flags)
 
 CLI
 - Scan:
-  - python -m cli scan --root "/Volumes/Extreme SSD/Movies"
-  - Options: --out-dir, --tiny-mib, --good-tokens, --lowq-tokens, --video-exts, --ignore-dirs
-- YTS lookup for flagged items:
-  - python -m cli yts --from-csv low_quality_movies.csv --out yts_lowq.csv
-  - python -m cli yts --from-csv lost_movies.csv --lost --out yts_missing.csv
+  - python -m cli scan --root "/Volumes/Extreme SSD/Movies"  (outputs to `data/` by default)
+- YTS lookup for flagged/missing:
+  - python -m cli yts --from-csv data/low_quality_movies.csv --out data/yts_lowq.csv
+  - python -m cli yts --from-csv data/lost_movies.csv --lost --out data/yts_missing.csv
 
 Notes
 - No downloading or piracy; this tool only analyzes local metadata and queries YTS for available release qualities.
@@ -33,3 +32,9 @@ Notes
 
 Installed entry point
 - After installing via pip, the command `movie-library-manager` runs the same CLI.
+
+Artifacts Directory
+- All CSV artifacts are written to `data/` in the repo root and are git-managed.
+
+Agents Guide
+- Detailed heuristics and contracts live in `AGENTS.md` to avoid duplication with README.

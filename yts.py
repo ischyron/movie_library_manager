@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import csv
-import html
+import time
 import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
@@ -35,7 +35,7 @@ def _build_query(title: str, year: Optional[int]) -> str:
     return q
 
 
-def yts_search(title: str, year: Optional[int], timeout: float) -> List[YTSMovie]:
+def yts_search(title: str, year: Optional[int], timeout: float, retries: int, slow_after: float, verbose: bool) -> List[YTSMovie]:
     q = _build_query(_sanitize_title(title), year)
     params = {
         "query_term": q,
@@ -43,21 +43,52 @@ def yts_search(title: str, year: Optional[int], timeout: float) -> List[YTSMovie
         "sort_by": "year",
         "order_by": "desc",
     }
-    r = requests.get(f"{API_BASE}/list_movies.json", params=params, timeout=timeout)
-    r.raise_for_status()
-    data = r.json()
-    movies = []
-    for m in (data.get("data", {}) or {}).get("movies", []) or []:
-        movies.append(
-            YTSMovie(
-                id=m["id"],
-                title=m.get("title") or "",
-                year=m.get("year") or 0,
-                url=m.get("url") or "",
-                torrents=m.get("torrents") or [],
-            )
-        )
-    return movies
+    url = f"{API_BASE}/list_movies.json"
+    attempt = 0
+    backoff = 0.75
+    while True:
+        attempt += 1
+        t0 = time.monotonic()
+        try:
+            if verbose:
+                print(f"[yts] GET {url} q='{q}' attempt={attempt}")
+            r = requests.get(url, params=params, timeout=timeout)
+            elapsed = time.monotonic() - t0
+            if verbose:
+                print(f"[yts] status={r.status_code} elapsed={elapsed:.2f}s")
+            r.raise_for_status()
+            data = r.json()
+            movies = []
+            for m in (data.get("data", {}) or {}).get("movies", []) or []:
+                movies.append(
+                    YTSMovie(
+                        id=m["id"],
+                        title=m.get("title") or "",
+                        year=m.get("year") or 0,
+                        url=m.get("url") or "",
+                        torrents=m.get("torrents") or [],
+                    )
+                )
+            # Retry if the request was too slow, as requested
+            if elapsed >= slow_after and attempt <= retries:
+                if verbose:
+                    print(f"[yts] slow ({elapsed:.2f}s >= {slow_after}s); retrying after backoff {backoff:.2f}s")
+                time.sleep(backoff)
+                backoff *= 2
+                continue
+            return movies
+        except Exception as e:
+            elapsed = time.monotonic() - t0
+            if attempt <= retries:
+                wait = backoff
+                if verbose:
+                    print(f"[yts] error: {e} (elapsed {elapsed:.2f}s); retry {attempt}/{retries} after {wait:.2f}s")
+                time.sleep(wait)
+                backoff *= 2
+                continue
+            if verbose:
+                print(f"[yts] failed after {attempt-1} retries: {e}")
+            return []
 
 
 def _best_match(movies: List[YTSMovie], title: str, year: Optional[int]) -> Optional[YTSMovie]:
@@ -70,10 +101,7 @@ def _best_match(movies: List[YTSMovie], title: str, year: Optional[int]) -> Opti
 
 
 def magnet_from_torrent(title: str, torrent: Dict) -> str:
-    # Builds a basic magnet link from torrent hash and title
-    # dn (display name) is URL-encoded title + quality
     from urllib.parse import quote
-
     name = f"{title}.{torrent.get('quality','')}.{torrent.get('type','')}"
     xt = f"urn:btih:{torrent.get('hash','')}"
     return f"magnet:?xt={xt}&dn={quote(name)}"
@@ -92,14 +120,17 @@ def yts_lookup_from_csv(
     is_lost: bool,
     concurrency: int,
     timeout: float,
+    retries: int,
+    slow_after: float,
+    verbose: bool,
 ) -> None:
     rows = list(_iter_csv_rows(input_csv))
 
     def task(row: Dict[str, str]) -> Tuple[Dict[str, str], Optional[YTSMovie]]:
-        title = (row.get("title") or "").strip()
+        title = (row.get("title") or row.get("title_guess") or row.get("folder_path") or "").split("/")[-1].strip()
         year = row.get("year")
         y = int(year) if year else None
-        movies = yts_search(title, y, timeout=timeout)
+        movies = yts_search(title, y, timeout=timeout, retries=retries, slow_after=slow_after, verbose=verbose)
         return row, _best_match(movies, title, y)
 
     out_rows: List[List[str]] = []
@@ -111,7 +142,7 @@ def yts_lookup_from_csv(
             if match is None:
                 out_rows.append([
                     row.get("path") or row.get("folder_path") or "",
-                    row.get("title") or "",
+                    row.get("title") or row.get("title_guess") or "",
                     row.get("year") or "",
                     "",
                     "",
@@ -145,4 +176,3 @@ def yts_lookup_from_csv(
             w.writerow(r)
 
     print(f"Wrote {output_csv}")
-

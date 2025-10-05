@@ -16,4 +16,6 @@ __pycache__/
 
 # Project outputs
 *.csv
-
+# Keep tracked artifacts in data/
+!data/
+!data/*.csv
