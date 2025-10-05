@@ -1,0 +1,13 @@
+[project]
+name = "media-hygiene"
+version = "0.1.0"
+description = "Scan movie libraries for low-quality/lost items and query YTS replacements."
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+  "requests>=2.31.0",
+]
+
+[project.scripts]
+media-hygiene = "media_hygiene.cli:main"
+
