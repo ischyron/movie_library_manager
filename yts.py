@@ -198,6 +198,7 @@ def yts_lookup_from_csv(
     output_csv: Path,
     is_lost: bool,
     in_place: bool,
+    refresh: bool,
     concurrency: int,
     timeout: float,
     retries: int,
@@ -219,54 +220,14 @@ def yts_lookup_from_csv(
         movies = yts_search(title, y, timeout=timeout, retries=retries, slow_after=slow_after, verbose=verbose)
         return row, _best_match(movies, title, y)
 
-    out_rows: List[List[str]] = []
-    # In-place streaming setup
-    w_out = None
-    f_out = None
-    tmp_path: Optional[Path] = None
-    orig_header: List[str] = []
+    # Prepare direct in-file rewrite; always add enrichment columns
     add_cols = ["yts_title", "yts_year", "yts_url", "yts_quality_available", "yts_next_quality", "magnet"]
-    processed_src: Set[str] = set()
-    if in_place:
-        tmp_path = input_csv.with_suffix(input_csv.suffix + ".yts.tmp")
-        orig_header = (rows and list(rows[0].keys())) or []
-        append_mode = False
-        if tmp_path.exists():
-            with tmp_path.open() as f:
-                rdr = _csv.reader(f)
-                try:
-                    tmp_header = next(rdr)
-                except StopIteration:
-                    tmp_header = []
-                # try to find source column index
-                try_cols = ["folder_path", "path", "source_path"]
-                src_idx = -1
-                for name in try_cols:
-                    if name in tmp_header:
-                        src_idx = tmp_header.index(name)
-                        break
-                if src_idx == -1 and orig_header and tmp_header[: len(orig_header)] == orig_header:
-                    if "folder_path" in orig_header:
-                        src_idx = orig_header.index("folder_path")
-                    elif "path" in orig_header:
-                        src_idx = orig_header.index("path")
-                    else:
-                        src_idx = 0
-                elif src_idx == -1:
-                    src_idx = 0
-                for row_tmp in rdr:
-                    if row_tmp:
-                        processed_src.add(row_tmp[src_idx])
-            append_mode = True
-        f_out = tmp_path.open("a" if append_mode else "w", newline="")
-        w_out = _csv.writer(f_out)
-        if not append_mode:
-            w_out.writerow(orig_header + add_cols)
-            f_out.flush()
-            try:
-                os.fsync(f_out.fileno())
-            except Exception:
-                pass
+    orig_header = (rows and list(rows[0].keys())) or []
+    # ensure header order and presence
+    header = orig_header[:]
+    for c in add_cols:
+        if c not in header:
+            header.append(c)
 
     def process_one(row: Dict[str, str]) -> None:
         title = (row.get("title") or row.get("title_guess") or row.get("folder_path") or "").split("/")[-1].strip()
@@ -275,10 +236,7 @@ def yts_lookup_from_csv(
         cur_rank = _detect_current_quality(src)
         if verbose:
             print(f"[yts] item: src='{src}' title='{title}' year='{year or ''}' cur_rank={cur_rank}")
-        if in_place and src and src in processed_src:
-            if verbose:
-                print(f"[yts] skip (already processed): '{src}'")
-            return
+        # No-op here; row-skipping is handled in the write loop based on yts_next_quality and --refresh
         try:
             _, match = task(row)
         except Exception as e:
@@ -340,56 +298,70 @@ def yts_lookup_from_csv(
             next_q,
             next_mag,
         ]
-        if in_place and w_out is not None and f_out is not None:
-            w_out.writerow([row.get(k, "") for k in orig_header] + combined[1:])
-            f_out.flush()
+        return combined
+
+    # Direct in-file rewrite with per-row flush; sequential for safety
+    with input_csv.open("w", newline="") as f_out:
+        w = _csv.DictWriter(f_out, fieldnames=header)
+        w.writeheader()
+        f_out.flush();
+        try:
+            os.fsync(f_out.fileno())
+        except Exception:
+            pass
+
+        for row in rows:
+            src = row.get("path") or row.get("folder_path") or ""
+            # Decide whether to skip based on existing enrichment unless --refresh
+            if not refresh and (row.get("yts_next_quality") or row.get("magnet") or row.get("yts_title")):
+                # Normalize: ensure all columns exist even when skipping
+                enriched = {
+                    "yts_title": row.get("yts_title", ""),
+                    "yts_year": row.get("yts_year", ""),
+                    "yts_url": row.get("yts_url", ""),
+                    "yts_quality_available": row.get("yts_quality_available", ""),
+                    "yts_next_quality": row.get("yts_next_quality", ""),
+                    "magnet": row.get("magnet", ""),
+                }
+            else:
+                try:
+                    combined = process_one(row)
+                    # Map combined list back to enrichment dict (drop src)
+                    enriched = {
+                        "yts_title": combined[1],
+                        "yts_year": combined[2],
+                        "yts_url": combined[3],
+                        "yts_quality_available": combined[4],
+                        "yts_next_quality": combined[5],
+                        "magnet": combined[6],
+                    }
+                except KeyboardInterrupt:
+                    # Write the current row unmodified to avoid data loss and re-raise
+                    enriched = {
+                        "yts_title": row.get("yts_title", ""),
+                        "yts_year": row.get("yts_year", ""),
+                        "yts_url": row.get("yts_url", ""),
+                        "yts_quality_available": row.get("yts_quality_available", ""),
+                        "yts_next_quality": row.get("yts_next_quality", ""),
+                        "magnet": row.get("magnet", ""),
+                    }
+                    raise
+                except Exception as e:
+                    if verbose:
+                        print(f"{RED}[yts] row error: src='{src}' err={e}{RESET}")
+                    enriched = {c: row.get(c, "") for c in add_cols}
+
+            # Compose row for write
+            out_row = {k: row.get(k, "") for k in header}
+            out_row.update(enriched)
+            w.writerow(out_row)
+            f_out.flush();
             try:
                 os.fsync(f_out.fileno())
             except Exception:
                 pass
-        else:
-            out_rows.append(combined)
 
-    eff_conc = 1 if in_place else max(1, concurrency)
-    if eff_conc == 1:
-        for row in rows:
-            try:
-                process_one(row)
-            except KeyboardInterrupt:
-                if in_place and verbose and tmp_path is not None:
-                    print(f"[yts] interrupted; partial results saved to {tmp_path}")
-                try:
-                    f_out and f_out.close()
-                except Exception:
-                    pass
-                raise
-    else:
-        with ThreadPoolExecutor(max_workers=eff_conc) as ex:
-            futs = [ex.submit(process_one, row) for row in rows]
-            for fut in as_completed(futs):
-                try:
-                    fut.result()
-                except Exception as e:
-                    if verbose:
-                        print(f"{RED}[yts] task error: {e}{RESET}")
-
-    if in_place:
-        # Finalize streaming file: if complete, replace original; else leave for resume
-        try:
-            f_out and f_out.close()
-        except Exception:
-            pass
-        try:
-            if tmp_path and tmp_path.exists():
-                with tmp_path.open() as f:
-                    n = sum(1 for _ in f) - 1
-                if n >= len(rows):
-                    tmp_path.replace(input_csv)
-                    print(f"Updated {input_csv}")
-                else:
-                    print(f"[yts] partial written to {tmp_path} ({n}/{len(rows)}) — re-run to resume")
-        except Exception:
-            pass
+    print(f"Updated {input_csv}")
     else:
         # Write separate output CSV
         header = ["source_path", "yts_title", "yts_year", "yts_url", "yts_quality_available", "yts_next_quality", "magnet"]

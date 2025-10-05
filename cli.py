@@ -61,6 +61,7 @@ def build_parser() -> argparse.ArgumentParser:
     yp.add_argument("--lost", action="store_true", help="Treat input as lost_movies.csv format")
     yp.add_argument("--concurrency", type=int, default=6, help="Parallel requests to YTS")
     yp.add_argument("--sequential", action="store_true", help="Process one movie at a time (sets concurrency=1)")
+    yp.add_argument("--refresh", action="store_true", help="Re-run YTS for rows that already have results")
     yp.add_argument("--timeout", type=float, default=12.0, help="HTTP timeout seconds")
     yp.add_argument("--retries", type=int, default=3, help="Retries per YTS query on failure/slow")
     yp.add_argument("--slow-after", type=float, default=9.0, help="Warn/retry if a request exceeds this many seconds")
@@ -96,6 +97,7 @@ def main(argv=None) -> int:
             output_csv=None,
             is_lost=args.lost,
             in_place=True,
+            refresh=args.refresh,
             concurrency=(1 if args.sequential else args.concurrency),
             timeout=args.timeout,
             retries=args.retries,
