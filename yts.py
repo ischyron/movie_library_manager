@@ -78,6 +78,22 @@ def yts_search(title: str, year: Optional[int], timeout: float, retries: int, sl
                 print(f"[yts] status={r.status_code} elapsed={elapsed:.2f}s")
             r.raise_for_status()
             data = r.json()
+            if verbose:
+                movies_dbg = []
+                try:
+                    for m in (data.get("data", {}) or {}).get("movies", []) or []:
+                        movies_dbg.append({
+                            "title": m.get("title"),
+                            "year": m.get("year"),
+                            "rating": m.get("rating"),
+                            "torrents": [
+                                {"quality": t.get("quality"), "type": t.get("type"), "size": t.get("size")}
+                                for t in (m.get("torrents") or [])
+                            ],
+                        })
+                except Exception as _e:
+                    movies_dbg = ["<parse error>"]
+                print(f"[yts] response movies: {movies_dbg}")
             movies = []
             for m in (data.get("data", {}) or {}).get("movies", []) or []:
                 movies.append(
