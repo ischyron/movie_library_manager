@@ -78,13 +78,19 @@ _TOKENS_RX = re.compile(
     )\b
 """, re.IGNORECASE | re.VERBOSE)
 
+# Size tokens like 350MB, 1.4 GB, 700MiB
+_SIZE_RX = re.compile(r"\b\d+(?:\.\d+)?\s*(?:MB|MiB|GB|GiB)\b", re.IGNORECASE)
+# Trailing release group patterns like " - VYTO", "-YIFY", "-RARBG" at end
+_TRAIL_GROUP_RX = re.compile(r"[\s]*[-–—][\s]*[A-Za-z0-9][A-Za-z0-9._-]{1,}$")
+
 def _clean_title_and_year(text: str) -> Tuple[str, int | None]:
     s = _SEPS_RX.sub(" ", text)
     ym = re.search(r"\b(19|20)\d{2}\b", s)
     year = int(ym.group(0)) if ym else None
     s = _BRACKET_RX.sub(" ", s)
     s = _TOKENS_RX.sub(" ", s)
-    s = re.sub(r"[-_](?:[A-Za-z0-9]+)$", " ", s)
+    s = _SIZE_RX.sub(" ", s)
+    s = _TRAIL_GROUP_RX.sub(" ", s)
     s = re.sub(r"\s{2,}", " ", s).strip(" -_.\t\n\r").strip()
     return s, year
 
