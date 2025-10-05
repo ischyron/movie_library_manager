@@ -70,7 +70,7 @@ _TOKENS_RX = re.compile(
     r"""
     \b(
         480p|576p|720p|1024p|1080p|1440p|2160p|4k|uhd|hdr|hdr10|dolby\s+vision|
-        x264|x265|h\.?26[45]|avc|hevc|
+        x264|x265|xvid|divx|h\.?26[45]|avc|hevc|
         dvdrip|brrip|bdrip|bluray|web[- ]?dl|web[- ]?rip|hdrip|tvrip|pdtv|r5|cams?|ts|tc|telesync|telecine|
         proper|repack|extended|limited|uncut|
         dts(?:-?hd)?|truehd|atmos|aac|ac-3|eac3|mp3|
@@ -85,9 +85,24 @@ _TRAIL_GROUP_RX = re.compile(r"[\s]*[-–—][\s]*[A-Za-z0-9][A-Za-z0-9._-]{1,}$
 
 def _clean_title_and_year(text: str) -> Tuple[str, int | None]:
     s = _SEPS_RX.sub(" ", text)
-    ym = re.search(r"\b(19|20)\d{2}\b", s)
-    year = int(ym.group(0)) if ym else None
+    # remove bracketed content
     s = _BRACKET_RX.sub(" ", s)
+    # first codec/source token
+    tok = _TOKENS_RX.search(s)
+    tok_idx = tok.start() if tok else None
+    # plausible year only if not leading (avoid stripping titles like '2001'/'1984')
+    ym = None
+    for m in re.finditer(r"\b(19|20)\d{2}\b", s):
+        if m.start() > 0:
+            ym = m
+            break
+    year = int(ym.group(0)) if ym else None
+    year_idx = ym.start() if ym else None
+    # cut at earliest token/year if any
+    candidates = [i for i in (tok_idx, year_idx) if i is not None]
+    if candidates:
+        s = s[:min(candidates)]
+    # strip remaining tokens, sizes, and trailing group markers
     s = _TOKENS_RX.sub(" ", s)
     s = _SIZE_RX.sub(" ", s)
     s = _TRAIL_GROUP_RX.sub(" ", s)
