@@ -10,9 +10,10 @@ from typing import Dict, Iterable, List, Optional, Set, Tuple
 
 GOOD_TITLE_RE = re.compile(r"^(?P<title>.+?)\s*\((?P<year>\d{4})\)")
 
-# Minimal built-in ignore list for system metadata only (case-insensitive)
+# Minimal built-in ignore list for system metadata + known junk leaves (case-insensitive)
 DEFAULT_IGNORE_DIRS: Set[str] = {
     ".appledouble", ".ds_store", "@eadir", "recycle.bin", "lost+found", ".git",
+    "sample", "samples",
 }
 
 
@@ -114,12 +115,17 @@ def scan_library(
     for d in _iter_dirs(root, ignores):
         # gather files
         files = [p for p in d.iterdir() if p.is_file()]
+        child_dirs = [c for c in d.iterdir() if c.is_dir()]
         vids = [p for p in files if _is_video(p, vexts)]
         subs = [p for p in files if _is_subtitle(p, sexts)]
 
+        is_movie_dir = _looks_like_movie_dir(d.name)
+        is_collection_container = any(_looks_like_movie_dir(c.name) for c in child_dirs)
+
         # compute direct non-zero video presence for current directory
         nonzero_vids = [p for p in vids if p.stat().st_size > 0]
-        has_nonzero_video[d] = len(nonzero_vids) > 0
+        # only movie-named folders count as ancestor blockers, and not collection containers
+        has_nonzero_video[d] = (len(nonzero_vids) > 0) and is_movie_dir and (not is_collection_container)
         # compute ancestor_has_video by inheriting from parent
         parent = d.parent if d != root else None
         ancestor_has_video[d] = False
@@ -127,7 +133,7 @@ def scan_library(
             ancestor_has_video[d] = has_nonzero_video.get(parent, False) or ancestor_has_video.get(parent, False)
 
         # Determine "lost" leaf folders: no subdirs and no non-zero-length videos
-        has_child_dirs = any(c.is_dir() for c in d.iterdir())
+        has_child_dirs = len(child_dirs) > 0
         if not has_child_dirs:
             if len(nonzero_vids) == 0:
                 # Skip accessory subdirs under a movie-named parent folder
@@ -136,36 +142,36 @@ def scan_library(
                     # Only consider the movie folder itself, not its children
                     pass
                 else:
-                    # Skip if any ancestor directory already contains a valid video
+                    # Skip if any ancestor movie directory already contains a valid video
                     if not ancestor_has_video.get(d, False):
                         reason = "no_videos" if len(vids) == 0 else "zero_byte_videos_only"
                         lost_rows.append((d, reason, len(files), len(vids)))
 
-        # flag low-quality videos in any folder
-        for v in vids:
-            try:
-                size = v.stat().st_size
-            except FileNotFoundError:
-                continue
+        # flag low-quality videos in any folder (but skip collection containers)
+        if not is_collection_container:
+            for v in vids:
+                try:
+                    size = v.stat().st_size
+                except FileNotFoundError:
+                    continue
 
-            name = v.name
-            good = _match_tokens(name, good_tokens)
-            lowq = _match_tokens(name, lowq_tokens)
+                name = v.name
+                good = _match_tokens(name, good_tokens)
+                lowq = _match_tokens(name, lowq_tokens)
 
-            reason_parts = []
-            if good:
-                # explicit good signal — do not flag solely by size
-                pass
-            else:
-                if size < tiny_bytes:
-                    reason_parts.append(f"tiny<{tiny_mib}MiB")
-                if lowq:
-                    reason_parts.append("tokens")
+                reason_parts = []
+                if good:
+                    pass
+                else:
+                    if size < tiny_bytes:
+                        reason_parts.append(f"tiny<{tiny_mib}MiB")
+                    if lowq:
+                        reason_parts.append("tokens")
 
-            if reason_parts:
-                lowq_rows.append(
-                    VideoEntry(path=v, size_bytes=size, reason=";".join(reason_parts), tokens_matched=lowq)
-                )
+                if reason_parts:
+                    lowq_rows.append(
+                        VideoEntry(path=v, size_bytes=size, reason=";".join(reason_parts), tokens_matched=lowq)
+                    )
 
     # Write CSVs
     lowq_csv = out_dir / "low_quality_movies.csv"
