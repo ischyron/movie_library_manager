@@ -19,7 +19,6 @@ def find_repo_root(start: Path) -> Path:
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
-        prog="media-hygiene",
         description="Scan movie library for low-quality/lost items and query YTS replacements.",
     )
 

@@ -232,13 +232,13 @@ def yts_lookup_from_csv(
         except Exception as e:
             if verbose:
                 print(f"{RED}[yts] ERROR item failed: src='{src}' err={e}{RESET}")
-            out_rows.append([src, "", "", "", "", ""])  # keep placeholder row
+            out_rows.append([src, "", "", "", "", "", ""])  # keep placeholder row (7 cols)
             return
 
         if match is None:
             if verbose:
                 print(f"{RED}[yts] no match: title='{title}' year='{year or ''}'{RESET}")
-            out_rows.append([src, title, year or "", "", "", ""])  # no results
+            out_rows.append([src, "", "", "", "", "", ""])  # no results (7 cols)
             return
 
         kept_q: List[str] = []
