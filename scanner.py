@@ -64,8 +64,31 @@ def _match_tokens(name: str, tokens: List[str]) -> List[str]:
     return found
 
 
+_BRACKET_RX = re.compile(r"\[[^\]]*\]|\([^\)]*\)|\{[^\}]*\}")
+_SEPS_RX = re.compile(r"[._]+")
+_TOKENS_RX = re.compile(
+    r"""
+    \b(
+        480p|576p|720p|1024p|1080p|1440p|2160p|4k|uhd|hdr|hdr10|dolby\s+vision|
+        x264|x265|h\.?26[45]|avc|hevc|
+        dvdrip|brrip|bdrip|bluray|web[- ]?dl|web[- ]?rip|hdrip|tvrip|pdtv|r5|cams?|ts|tc|telesync|telecine|
+        proper|repack|extended|limited|uncut|
+        dts(?:-?hd)?|truehd|atmos|aac|ac-3|eac3|mp3|
+        multi|subs?|subtitles|dubbed|nl|eng|ita|spa|fre|fr|ger|deu|hin|rus
+    )\b
+""", re.IGNORECASE | re.VERBOSE)
+
+def _clean_title_and_year(text: str) -> Tuple[str, int | None]:
+    s = _SEPS_RX.sub(" ", text)
+    ym = re.search(r"\b(19|20)\d{2}\b", s)
+    year = int(ym.group(0)) if ym else None
+    s = _BRACKET_RX.sub(" ", s)
+    s = _TOKENS_RX.sub(" ", s)
+    s = re.sub(r"[-_](?:[A-Za-z0-9]+)$", " ", s)
+    s = re.sub(r"\s{2,}", " ", s).strip(" -_.\t\n\r").strip()
+    return s, year
+
 def _parse_title_year_from_path(path: Path) -> Tuple[str, int | None]:
-    # Attempt using parent dir first, else filename without extension
     candidates = [path.parent.name, path.stem]
     for cand in candidates:
         m = GOOD_TITLE_RE.match(cand)
@@ -73,11 +96,8 @@ def _parse_title_year_from_path(path: Path) -> Tuple[str, int | None]:
             title = m.group("title").strip()
             year = int(m.group("year"))
             return title, year
-    # Fallback: loose title (strip common tags)
-    title = re.sub(r"[._]+", " ", candidates[0]).strip()
-    title = re.sub(r"\b(720p|1024p|1080p|1440p|2160p|4K|UHD|REMUX|BluRay|WEBRip|WEB-DL|HDR)\b", "", title, flags=re.I)
-    title = re.sub(r"\s{2,}", " ", title).strip()
-    return title, None
+    title, year = _clean_title_and_year(candidates[0])
+    return title, year
 
 
 def _looks_like_movie_dir(name: str) -> bool:
@@ -187,38 +207,39 @@ def scan_library(
         if current is None or entry.size_bytes < current.size_bytes:
             by_folder[folder] = entry
 
-    # Write CSVs
+    # Write CSVs (low quality) with title first, size_mib second
     lowq_csv = out_dir / "low_quality_movies.csv"
     with lowq_csv.open("w", newline="") as f:
         w = csv.writer(f)
-        w.writerow(["folder_path", "rep_video_path", "size_bytes", "size_mib", "reason", "tokens", "title", "year", "flagged_count"])
+        w.writerow(["title", "size_mib", "year", "folder_path", "rep_video_path", "size_bytes", "reason", "tokens", "flagged_count"])
         for folder, rep in sorted(by_folder.items(), key=lambda kv: str(kv[0]).lower()):
             title, year = _parse_title_year_from_path(rep.path)
             w.writerow([
+                title,
+                f"{rep.size_mib:.2f}",
+                year if year is not None else "",
                 str(folder),
                 str(rep.path),
                 rep.size_bytes,
-                f"{rep.size_mib:.2f}",
                 rep.reason,
                 "|".join(sorted(tokens_by_folder.get(folder, set()))),
-                title,
-                year if year is not None else "",
                 count_by_folder.get(folder, 1),
             ])
 
     lost_csv = out_dir / "lost_movies.csv"
     with lost_csv.open("w", newline="") as f:
         w = csv.writer(f)
-        w.writerow(["folder_path", "reason", "file_count", "video_count", "title", "year"])
+        w.writerow(["title", "size_mib", "year", "folder_path", "reason", "file_count", "video_count"])
         for folder, reason, file_count, video_count in lost_rows:
             title, year = _parse_title_year_from_path(folder / "dummy.ext")
             w.writerow([
+                title,
+                "0.00",
+                year if year is not None else "",
                 str(folder),
                 reason,
                 file_count,
                 video_count,
-                title,
-                year if year is not None else "",
             ])
 
     print(f"Wrote {lowq_csv}")
