@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-# transmission_add.sh — add magnet links to a local Transmission daemon
+# transmission_add.sh — add magnet links via Transmission GUI by default (or daemon if --daemon)
 # Usage examples:
 #   scripts/transmission_add.sh "magnet:?xt=urn:btih:..."
-#   scripts/transmission_add.sh -w "$HOME/Downloads/Movies" "magnet:?xt=urn:btih:..."
-#   scripts/transmission_add.sh -f data/selected_magnets.txt
-#   scripts/transmission_add.sh -c data/low_quality_movies.csv  # uses 'magnet' column
-#   scripts/transmission_add.sh -n user:pass "magnet:?xt=urn:btih:..." "magnet:?xt=urn:btih:..."
+#   scripts/transmission_add.sh --clear -c data/low_quality_movies.csv
+#   scripts/transmission_add.sh --daemon -w "$HOME/Downloads/Movies" -f data/selected_magnets.txt
+#   scripts/transmission_add.sh --daemon -n user:pass "magnet:?xt=urn:btih:..."
 
 RPC_HOST=${RPC_HOST:-localhost}
 RPC_PORT=${RPC_PORT:-9091}
@@ -16,10 +15,27 @@ DOWNLOAD_DIR="${HOME}/Downloads"
 CONF_DIR="${CONF_DIR:-${HOME}/.config/transmission-daemon}"
 MAGNET_FILE=""
 CSV_FILE=""
+USE_DAEMON=false
+CLEAR_QUEUE=false
+TRASH_DATA=false
 
 usage() {
-  echo "Usage: $0 [-H host] [-p port] [-n user:pass] [-w download_dir] [-f magnets.txt] [-c magnets.csv] [magnet ...]" >&2
+  echo "Usage: $0 [--daemon] [--clear] [--trash] [-H host] [-p port] [-n user:pass] [-w download_dir] [-f magnets.txt] [-c magnets.csv] [magnet ...]" >&2
 }
+
+# First pass for long options so we can keep getopts for short ones
+_REST=()
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --daemon) USE_DAEMON=true; shift ;;
+    --clear) CLEAR_QUEUE=true; shift ;;
+    --trash) TRASH_DATA=true; shift ;;
+    --) shift; break ;;
+    --*) echo "Unknown option $1" >&2; usage; exit 2 ;;
+    *) _REST+=("$1"); shift ;;
+  esac
+done
+set -- "${_REST[@]}" "$@"
 
 while getopts ":H:p:n:w:f:c:h" opt; do
   case $opt in
@@ -41,20 +57,20 @@ TR=(transmission-remote "$RPC_HOST":"$RPC_PORT")
 if [ -n "$RPC_AUTH" ]; then TR+=( -n "$RPC_AUTH" ); fi
 if [ -n "$DOWNLOAD_DIR" ]; then TR+=( -w "$DOWNLOAD_DIR" ); fi
 
-# Ensure daemon is running (start locally if RPC not reachable)
-if ! "${TR[@]}" -si >/dev/null 2>&1; then
-  echo "[transmission] RPC not reachable; starting local transmission-daemon..."
-  mkdir -p "$CONF_DIR" "$DOWNLOAD_DIR"
-  # Start daemon in background with chosen config and download dir
-  transmission-daemon -g "$CONF_DIR" -w "$DOWNLOAD_DIR" >/dev/null 2>&1 || true
-  # Wait for RPC to respond
-  for i in {1..20}; do
-    if "${TR[@]}" -si >/dev/null 2>&1; then break; fi
-    sleep 0.5
-  done
+# If using daemon mode, ensure daemon is reachable (start if needed)
+if [ "$USE_DAEMON" = true ]; then
   if ! "${TR[@]}" -si >/dev/null 2>&1; then
-    echo "[transmission] ERROR: Unable to contact RPC at ${RPC_HOST}:${RPC_PORT}" >&2
-    exit 1
+    echo "[transmission] RPC not reachable; starting local transmission-daemon..."
+    mkdir -p "$CONF_DIR" "$DOWNLOAD_DIR"
+    transmission-daemon -g "$CONF_DIR" -w "$DOWNLOAD_DIR" >/dev/null 2>&1 || true
+    for i in {1..20}; do
+      if "${TR[@]}" -si >/dev/null 2>&1; then break; fi
+      sleep 0.5
+    done
+    if ! "${TR[@]}" -si >/dev/null 2>&1; then
+      echo "[transmission] ERROR: Unable to contact RPC at ${RPC_HOST}:${RPC_PORT}" >&2
+      exit 1
+    fi
   fi
 fi
 
@@ -105,11 +121,58 @@ if [ ${#MAGNETS[@]} -eq 0 ]; then
   usage; exit 2
 fi
 
-echo "[transmission] Adding ${#MAGNETS[@]} magnet(s) to ${RPC_HOST}:${RPC_PORT} -> $DOWNLOAD_DIR"
-for m in "${MAGNETS[@]}"; do
-  echo "  + $m"
-  "${TR[@]}" -a "$m"
-done
-
-echo "[transmission] Current torrents:"
-"${TR[@]}" -l || true
+if [ "$USE_DAEMON" = true ]; then
+  echo "[transmission] Adding ${#MAGNETS[@]} magnet(s) to daemon ${RPC_HOST}:${RPC_PORT} -> $DOWNLOAD_DIR"
+  if [ "$CLEAR_QUEUE" = true ]; then
+    echo "[transmission] Clearing daemon queue..."
+    IDS=$("${TR[@]}" -l | awk 'NR>1 && $1 ~ /^[0-9]+/ {print $1}')
+    for id in $IDS; do
+      if [ "$TRASH_DATA" = true ]; then
+        "${TR[@]}" -t "$id" -rad >/dev/null || true
+      else
+        "${TR[@]}" -t "$id" -r >/dev/null || true
+      fi
+    done
+  fi
+  for m in "${MAGNETS[@]}"; do
+    echo "  + $m"
+    "${TR[@]}" -a "$m"
+  done
+  echo "[transmission] Current daemon torrents:"
+  "${TR[@]}" -l || true
+else
+  # GUI mode
+  if [ "$CLEAR_QUEUE" = true ]; then
+    if command -v osascript >/dev/null 2>&1; then
+      echo "[transmission] Clearing GUI queue via AppleScript..."
+      osascript <<'OSA'
+tell application "Transmission"
+  try
+    repeat with t in transfers
+      remove t
+    end repeat
+  end try
+end tell
+OSA
+    else
+      echo "[transmission] CLEAR requested, but GUI clear is only implemented for macOS (skipping)"
+    fi
+  fi
+  echo "[transmission] Adding ${#MAGNETS[@]} magnet(s) to Transmission GUI"
+  for m in "${MAGNETS[@]}"; do
+    if command -v open >/dev/null 2>&1; then
+      open -a "Transmission" "$m" || open "$m"
+    elif command -v transmission-gtk >/dev/null 2>&1; then
+      transmission-gtk "$m" &>/dev/null &
+    elif command -v transmission-qt >/dev/null 2>&1; then
+      transmission-qt "$m" &>/dev/null &
+    elif command -v xdg-open >/dev/null 2>&1; then
+      xdg-open "$m" >/dev/null 2>&1 &
+    else
+      echo "[transmission] No suitable GUI opener found for magnets on this system" >&2
+      exit 1
+    fi
+    sleep 0.2
+  done
+  echo "[transmission] Done. Check the Transmission app window."
+fi
