@@ -71,27 +71,33 @@ if [ -n "$MAGNET_FILE" ]; then
 fi
 
 if [ -n "$CSV_FILE" ]; then
-  # Extract 'magnet' column robustly via Python csv module
-  mapfile -t from_csv < <(python3 - "$CSV_FILE" <<'PY'
+  # Extract 'magnet' column robustly via Python csv module (portable: avoid mapfile)
+  while IFS= read -r m; do
+    [ -n "$m" ] && MAGNETS+=("$m")
+  done < <(python3 - "$CSV_FILE" <<'PY'
 import csv, sys
 path=sys.argv[1]
 with open(path, newline='', encoding='utf-8') as f:
-  r=csv.DictReader(f)
-  col='magnet' if 'magnet' in r.fieldnames else None
+  r = csv.DictReader(f)
+  if not r.fieldnames:
+    raise SystemExit(0)
+  col = 'magnet' if 'magnet' in r.fieldnames else None
   if not col:
-    # fallbacks
     for c in ('magnets','Magnet','MAGNET'):
-      if c in r.fieldnames: col=c; break
+      if c in r.fieldnames:
+        col = c
+        break
+  if not col:
+    raise SystemExit(0)
   for row in r:
-    val=(row.get(col) or '').strip() if col else ''
+    val = (row.get(col) or '').strip()
     if val.startswith('magnet:'):
-      # if multiple in a cell, split on '|'
-      for m in val.split('|'):
-        m=m.strip()
-        if m.startswith('magnet:'): print(m)
+      parts = [p.strip() for p in val.split('|')]
+      for p in parts:
+        if p.startswith('magnet:'):
+          print(p)
 PY
   )
-  for m in "${from_csv[@]}"; do MAGNETS+=("$m"); done
 fi
 
 if [ ${#MAGNETS[@]} -eq 0 ]; then
