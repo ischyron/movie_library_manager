@@ -17,10 +17,13 @@ MAGNET_FILE=""
 CSV_FILE=""
 USE_DAEMON=false
 CLEAR_QUEUE=false
+ADD_AFTER_CLEAR=false
 TRASH_DATA=false
 
 usage() {
-  echo "Usage: $0 [--daemon] [--clear] [--trash] [-H host] [-p port] [-n user:pass] [-w download_dir] [-f magnets.txt] [-c magnets.csv] [magnet ...]" >&2
+  echo "Usage: $0 [--daemon] [--clear [--add]] [--trash] [-H host] [-p port] [-n user:pass] [-w download_dir] [-f magnets.txt] [-c magnets.csv] [magnet ...]" >&2
+  echo "  --clear          Clear existing queue only (default: do NOT add)" >&2
+  echo "  --add            Add magnets after --clear (opt-in)" >&2
 }
 
 # First pass for long options so we can keep getopts for short ones
@@ -29,6 +32,7 @@ while [ $# -gt 0 ]; do
   case "$1" in
     --daemon) USE_DAEMON=true; shift ;;
     --clear) CLEAR_QUEUE=true; shift ;;
+    --add) ADD_AFTER_CLEAR=true; shift ;;
     --trash) TRASH_DATA=true; shift ;;
     --) shift; break ;;
     --*) echo "Unknown option $1" >&2; usage; exit 2 ;;
@@ -116,13 +120,13 @@ PY
   )
 fi
 
-if [ ${#MAGNETS[@]} -eq 0 ]; then
-  echo "[transmission] No magnets provided." >&2
+# It's valid to have no magnets when using --clear (clear-only mode)
+if [ ${#MAGNETS[@]} -eq 0 ] && [ "$CLEAR_QUEUE" != true ]; then
+  echo "[transmission] No magnets provided (and --clear not set)." >&2
   usage; exit 2
 fi
 
 if [ "$USE_DAEMON" = true ]; then
-  echo "[transmission] Adding ${#MAGNETS[@]} magnet(s) to daemon ${RPC_HOST}:${RPC_PORT} -> $DOWNLOAD_DIR"
   if [ "$CLEAR_QUEUE" = true ]; then
     echo "[transmission] Clearing daemon queue..."
     IDS=$("${TR[@]}" -l | awk 'NR>1 && $1 ~ /^[0-9]+/ {print $1}')
@@ -133,7 +137,12 @@ if [ "$USE_DAEMON" = true ]; then
         "${TR[@]}" -t "$id" -r >/dev/null || true
       fi
     done
+    if [ "$ADD_AFTER_CLEAR" != true ]; then
+      echo "[transmission] --clear requested without --add; not adding magnets. Done."
+      exit 0
+    fi
   fi
+  echo "[transmission] Adding ${#MAGNETS[@]} magnet(s) to daemon ${RPC_HOST}:${RPC_PORT} -> $DOWNLOAD_DIR"
   for m in "${MAGNETS[@]}"; do
     echo "  + $m"
     "${TR[@]}" -a "$m"
@@ -156,6 +165,10 @@ end tell
 OSA
     else
       echo "[transmission] CLEAR requested, but GUI clear is only implemented for macOS (skipping)"
+    fi
+    if [ "$ADD_AFTER_CLEAR" != true ]; then
+      echo "[transmission] --clear requested without --add; not adding magnets. Done."
+      exit 0
     fi
   fi
   echo "[transmission] Adding ${#MAGNETS[@]} magnet(s) to Transmission GUI"
