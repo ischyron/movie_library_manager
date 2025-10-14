@@ -4,6 +4,7 @@ import csv
 import time
 import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
+import io
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Tuple, Set
@@ -70,11 +71,11 @@ def yts_search(title: str, year: Optional[int], timeout: float, retries: int, sl
         attempt += 1
         t0 = time.monotonic()
         try:
-            if True or verbose:
+            if verbose:
                 print(f"[yts] GET {url} q='{q}' attempt={attempt}")
             r = requests.get(url, params=params, timeout=timeout)
             elapsed = time.monotonic() - t0
-            if True or verbose:
+            if verbose:
                 print(f"[yts] status={r.status_code} elapsed={elapsed:.2f}s")
             r.raise_for_status()
             data = r.json()
@@ -137,19 +138,19 @@ def _title_similarity(a: str, b: str) -> float:
 def _best_match(movies: List[YTSMovie], title: str, year: Optional[int]) -> Optional[YTSMovie]:
     if not movies:
         return None
-    # If year provided, first try exact year matches and pick the closest title
+    # If year provided, prefer exact-year matches; among them pick highest rating, then closest title
     if year:
         same_year = [m for m in movies if m.year == year]
         if same_year:
-            best = max(same_year, key=lambda m: _title_similarity(title, m.title))
-            return best
-    # Otherwise choose by title similarity, breaking ties by nearest year if input year provided
-    def score(m: YTSMovie) -> Tuple[float, float]:
+            return max(same_year, key=lambda m: (m.rating or 0.0, _title_similarity(title, m.title)))
+    # Otherwise choose by a blend: highest rating first, then title similarity, then nearest year
+    def score(m: YTSMovie) -> Tuple[float, float, float]:
         sim = _title_similarity(title, m.title)
+        year_bonus = 0.0
         if year:
             yd = abs(m.year - year) if m.year and year else 9999
-            return (sim, -1.0 / (1 + yd))
-        return (sim, 0.0)
+            year_bonus = -float(yd)
+        return (m.rating or 0.0, sim, year_bonus)
 
     return max(movies, key=score)
 
@@ -203,10 +204,16 @@ def magnet_from_torrent(title: str, torrent: Dict) -> str:
 
 
 def _iter_csv_rows(path: Path) -> Iterable[Dict[str, str]]:
-    with path.open() as f:
-        r = csv.DictReader(f)
-        for row in r:
-            yield row
+    # Defensive reader: strip NUL bytes and decode with replacement to avoid
+    # '_csv.Error: line contains NUL' caused by corrupted CSVs.
+    raw = path.read_bytes()
+    if b"\x00" in raw:
+        raw = raw.replace(b"\x00", b"")
+    text = raw.decode("utf-8", errors="replace")
+    f = io.StringIO(text)
+    r = csv.DictReader(f)
+    for row in r:
+        yield row
 
 
 def yts_lookup_from_csv(
@@ -256,12 +263,12 @@ def yts_lookup_from_csv(
         try:
             _, match = task(row)
         except Exception as e:
-            if True or verbose:
+            if verbose:
                 print(f"{RED}[yts] ERROR item failed: src='{src}' err={e}{RESET}")
             return [src, "", "", "", "", "", ""]
 
         if match is None:
-            if True or verbose:
+            if verbose:
                 print(f"{RED}[yts] no match: title='{title}' year='{year or ''}'{RESET}")
             return [src, "", "", "", "", "", ""]
 
@@ -278,7 +285,7 @@ def yts_lookup_from_csv(
                 kept_mag.append(magnet_from_torrent(match.title, t))
         next_q, next_t = _choose_next_quality(match, cur_rank)
         next_mag = magnet_from_torrent(match.title, next_t) if next_t else ""
-        if True or verbose:
+        if verbose:
             color = GREEN if kept_q else YELLOW
             print(f"{color}[yts] match: '{match.title}' ({match.year}) rating={match.rating} url={match.url}{RESET}")
             print(f"{color}[yts] torrents: total={len(all_q)} kept_higher={len(kept_q)} next={next_q or '-'}{RESET}")

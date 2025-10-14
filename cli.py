@@ -36,7 +36,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     sp.add_argument(
         "--lowq-tokens",
-        default="DivX,XviD,CAM,TS,TC,DVDScr,DVDRip,R5,360p,480p,HDCAM,SDTV,PDTV",
+        default="DivX,XviD,aXXo,CAM,TS,TC,DVDScr,DVDRip,R5,360p,480p,HDCAM,SDTV,PDTV",
         help="Comma-separated tokens that indicate low quality",
     )
     sp.add_argument(

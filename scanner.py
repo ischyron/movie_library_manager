@@ -10,9 +10,15 @@ from typing import Dict, Iterable, List, Optional, Set, Tuple
 
 GOOD_TITLE_RE = re.compile(r"^(?P<title>.+?)\s*\((?P<year>\d{4})\)")
 
-# Minimal built-in ignore list for system metadata + known junk leaves (case-insensitive)
+# Built-in ignore list for accessory/system folders (case-insensitive)
+# Matches Agents Guide defaults so users don't need to pass --ignore-dirs.
 DEFAULT_IGNORE_DIRS: Set[str] = {
+    # system metadata
     ".appledouble", ".ds_store", "@eadir", "recycle.bin", "lost+found", ".git",
+    # accessory media folders
+    "subs", "subtitles", "extras", "featurettes", "trailers", "art", "artwork",
+    "posters", "covers", "metadata", "plex versions", ".actors", "other",
+    # legacy/sample content
     "sample", "samples",
 }
 
@@ -200,25 +206,31 @@ def scan_library(
                         reason = "no_videos" if len(vids) == 0 else "zero_byte_videos_only"
                         lost_rows.append((d, reason, len(files), len(vids)))
 
-        # flag low-quality videos in any folder (but skip collection containers)
+        # flag low-quality videos (skip collection containers)
         if not is_collection_container:
-            # Folder-level gate: if this folder clearly contains a valid movie
-            # (any video >= tiny_mib) OR folder/video names include good tokens
-            # like 1080p/2160p/REMUX, then do NOT flag tiny artifacts inside.
+            # Folder-level gating only suppresses tiny-only flags when a clear good/large signal exists.
+            # Low-quality tokens should still be flagged even if a large video is present.
             folder_good = bool(_match_tokens(d.name, good_tokens))
             name_good = any(_match_tokens(p.name, good_tokens) for p in vids)
             has_large_video = any((p.stat().st_size >= tiny_bytes) for p in vids if p.exists())
+            folder_lowq = bool(_match_tokens(d.name, lowq_tokens))
+            name_lowq = any(_match_tokens(p.name, lowq_tokens) for p in vids)
+            allow_scan = (not (folder_good or name_good or has_large_video)) or folder_lowq or name_lowq
 
-            if not (folder_good or name_good or has_large_video):
+            if allow_scan:
                 for v in vids:
                     try:
                         size = v.stat().st_size
                     except FileNotFoundError:
                         continue
 
-                    name = v.name
-                    good = _match_tokens(name, good_tokens)
-                    lowq = _match_tokens(name, lowq_tokens)
+                    # Token scope: check BOTH folder name and filename
+                    folder_name = v.parent.name
+                    file_name = v.name
+                    good = _match_tokens(folder_name, good_tokens) + _match_tokens(file_name, good_tokens)
+                    lowq_tokens_folder = _match_tokens(folder_name, lowq_tokens)
+                    lowq_tokens_file = _match_tokens(file_name, lowq_tokens)
+                    lowq = list({*lowq_tokens_folder, *lowq_tokens_file})
 
                     reason_parts = []
                     if good:
