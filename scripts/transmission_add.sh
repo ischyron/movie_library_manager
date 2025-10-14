@@ -91,31 +91,34 @@ if [ -n "$MAGNET_FILE" ]; then
 fi
 
 if [ -n "$CSV_FILE" ]; then
-  # Extract 'magnet' column robustly via Python csv module (portable: avoid mapfile)
+  # Extract 'magnet' column robustly. Handle NUL bytes and encoding issues.
   while IFS= read -r m; do
     [ -n "$m" ] && MAGNETS+=("$m")
   done < <(python3 - "$CSV_FILE" <<'PY'
-import csv, sys
+import csv, sys, io
 path=sys.argv[1]
-with open(path, newline='', encoding='utf-8') as f:
-  r = csv.DictReader(f)
-  if not r.fieldnames:
-    raise SystemExit(0)
-  col = 'magnet' if 'magnet' in r.fieldnames else None
-  if not col:
-    for c in ('magnets','Magnet','MAGNET'):
-      if c in r.fieldnames:
-        col = c
-        break
-  if not col:
-    raise SystemExit(0)
-  for row in r:
-    val = (row.get(col) or '').strip()
-    if val.startswith('magnet:'):
-      parts = [p.strip() for p in val.split('|')]
-      for p in parts:
-        if p.startswith('magnet:'):
-          print(p)
+raw=open(path,'rb').read()
+if b"\x00" in raw:
+  raw=raw.replace(b"\x00", b"")
+text=raw.decode('utf-8','replace')
+f=io.StringIO(text)
+r=csv.DictReader(f)
+if not r.fieldnames:
+  raise SystemExit(0)
+col='magnet' if 'magnet' in r.fieldnames else None
+if not col:
+  for c in ('magnets','Magnet','MAGNET'):
+    if c in r.fieldnames:
+      col=c; break
+if not col:
+  raise SystemExit(0)
+for row in r:
+  val=(row.get(col) or '').strip()
+  if val.startswith('magnet:'):
+    parts=[p.strip() for p in val.split('|')]
+    for p in parts:
+      if p.startswith('magnet:'):
+        print(p)
 PY
   )
 fi
