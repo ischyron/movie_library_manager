@@ -54,6 +54,7 @@ def build_parser() -> argparse.ArgumentParser:
         default="",
         help="Optional comma-separated dir names to ignore (overrides built-in defaults)",
     )
+    # duplicate detection normalization is automatic (IMDb Suggest by default; OMDb if OMDB_API_KEY is set)
 
     # yts command
     yp = sub.add_parser("yts", help="Query YTS for items listed in a CSV")
@@ -66,6 +67,17 @@ def build_parser() -> argparse.ArgumentParser:
     yp.add_argument("--retries", type=int, default=3, help="Retries per YTS query on failure/slow")
     yp.add_argument("--slow-after", type=float, default=9.0, help="Warn/retry if a request exceeds this many seconds")
     yp.add_argument("--verbose", action="store_true", help="Verbose logging for YTS lookups")
+    # Pre-match options to improve title/year (and IMDb ID) before YTS
+    yp.add_argument(
+        "--omdb-key",
+        default=None,
+        help="OMDb API key (falls back to OMDB_API_KEY env var if omitted)",
+    )
+    yp.add_argument(
+        "--tmdb-key",
+        default=None,
+        help="TMDb API key (falls back to TMDB_API_KEY env var if omitted)",
+    )
 
     return p
 
@@ -92,6 +104,14 @@ def main(argv=None) -> int:
         return 0
 
     if args.cmd == "yts":
+        omdb_key = args.omdb_key or None
+        tmdb_key = args.tmdb_key or None
+        if omdb_key is None or tmdb_key is None:
+            import os as _os
+            if omdb_key is None:
+                omdb_key = _os.getenv("OMDB_API_KEY")
+            if tmdb_key is None:
+                tmdb_key = _os.getenv("TMDB_API_KEY")
         yts_lookup_from_csv(
             input_csv=args.from_csv,
             output_csv=None,
@@ -103,6 +123,9 @@ def main(argv=None) -> int:
             retries=args.retries,
             slow_after=args.slow_after,
             verbose=args.verbose,
+            pre_match="tmdb",
+            omdb_key=omdb_key,
+            tmdb_key=tmdb_key,
         )
         return 0
 

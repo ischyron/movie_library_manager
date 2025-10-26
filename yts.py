@@ -14,9 +14,13 @@ import csv as _csv
 from tempfile import NamedTemporaryFile
 
 import requests
+from keys import TMDB_API_KEY as TMDB_KEY_DEFAULT, OMDB_API_KEY as OMDB_KEY_DEFAULT
+import urllib.parse as _up
 
 
 API_BASE = "https://yts.mx/api/v2"
+IMDB_SUGGEST_BASE = "https://v2.sg.media-imdb.com/suggestion"
+TMDB_BASE = "https://api.themoviedb.org/3"
 
 # Console colors
 RED = "\033[31m"
@@ -38,6 +42,7 @@ class YTSMovie:
     url: str
     torrents: List[Dict]
     rating: float
+    imdb_code: str
 
 
 def _sanitize_title(s: str) -> str:
@@ -105,6 +110,7 @@ def yts_search(title: str, year: Optional[int], timeout: float, retries: int, sl
                         url=m.get("url") or "",
                         torrents=m.get("torrents") or [],
                         rating=float(m.get("rating") or 0.0),
+                        imdb_code=(m.get("imdb_code") or "").strip(),
                     )
                 )
             # Retry if the request was too slow, as requested
@@ -153,6 +159,151 @@ def _best_match(movies: List[YTSMovie], title: str, year: Optional[int]) -> Opti
         return (m.rating or 0.0, sim, year_bonus)
 
     return max(movies, key=score)
+
+
+def _imdb_suggest(title: str, timeout: float = 8.0) -> List[Dict]:
+    if not title:
+        return []
+    t = title.strip()
+    if not t:
+        return []
+    first = t[0].lower()
+    if not ("a" <= first <= "z"):
+        first = "_"
+    url = f"{IMDB_SUGGEST_BASE}/{first}/{_up.quote(t)}.json"
+    try:
+        r = requests.get(url, timeout=timeout)
+        if r.status_code != 200:
+            return []
+        data = r.json()
+        arr = data.get("d") if isinstance(data, dict) else None
+        return arr or []
+    except Exception:
+        return []
+
+
+def _pick_best_imdb(cands: List[Dict], want_title: str, want_year: Optional[int]) -> Tuple[str, Optional[int], Optional[str]]:
+    # Filter to feature films when possible
+    feats = [c for c in cands if (c.get("q") or "").lower() in ("feature", "movie")]
+    pool = feats if feats else cands
+
+    def year_of(c: Dict) -> Optional[int]:
+        y = c.get("y")
+        try:
+            return int(y)
+        except Exception:
+            return None
+
+    # Prefer same year
+    if want_year is not None:
+        same = [c for c in pool if year_of(c) == want_year]
+        if same:
+            pool = same
+
+    def norm(s: str) -> str:
+        s = s.lower()
+        s = re.sub(r"[^a-z0-9\s]", " ", s)
+        s = re.sub(r"\s+", " ", s).strip()
+        return s
+
+    want_norm = norm(want_title)
+
+    def score(c: Dict) -> Tuple[float, float, float]:
+        rank = float(c.get("rank") or 0.0)
+        cand_title = c.get("l") or ""
+        cand_norm = norm(cand_title)
+        wt = set(want_norm.split())
+        ct = set(cand_norm.split())
+        overlap = len(wt & ct) / max(1.0, len(wt))
+        y = year_of(c)
+        year_bonus = 0.0
+        if want_year is not None and y is not None:
+            year_bonus = -abs(want_year - y)
+        return (rank, overlap, year_bonus)
+
+    if not pool:
+        return want_title, want_year, None
+    best = max(pool, key=score)
+    best_title = best.get("l") or want_title
+    best_year = year_of(best) if year_of(best) is not None else want_year
+    imdb_id = best.get("id") or best.get("i") or None  # IMDB suggest sometimes uses 'id'
+    return best_title, best_year, imdb_id
+
+
+def _omdb_lookup(title: str, year: Optional[int], apikey: str, timeout: float = 10.0) -> Tuple[str, Optional[int], Optional[str]]:
+    params = {"apikey": apikey, "type": "movie"}
+    params["t"] = title
+    if year:
+        params["y"] = str(year)
+    try:
+        r = requests.get("https://www.omdbapi.com/", params=params, timeout=timeout)
+        data = r.json()
+        if data.get("Response") == "True":
+            t = data.get("Title") or title
+            y = data.get("Year")
+            yv = int(y[:4]) if y and y[:4].isdigit() else year
+            imdb_id = data.get("imdbID") or None
+            return t, yv, imdb_id
+        # fallback: search
+        params.pop("t", None)
+        params.pop("y", None)
+        params["s"] = title
+        r = requests.get("https://www.omdbapi.com/", params=params, timeout=timeout)
+        data = r.json()
+        if data.get("Response") == "True":
+            candidates = data.get("Search", []) or []
+            if year:
+                for c in candidates:
+                    yy = c.get("Year")
+                    if yy and yy[:4].isdigit() and int(yy[:4]) == year:
+                        return (c.get("Title") or title, int(yy[:4]), c.get("imdbID") or None)
+            if candidates:
+                c0 = candidates[0]
+                yy = c0.get("Year")
+                yv = int(yy[:4]) if yy and yy[:4].isdigit() else year
+                return (c0.get("Title") or title, yv, c0.get("imdbID") or None)
+    except Exception:
+        pass
+    return title, year, None
+
+
+def _tmdb_search(title: str, year: Optional[int], apikey: str, timeout: float = 8.0) -> Tuple[str, Optional[int], Optional[str]]:
+    # Search TMDb, pick best result (prefer same year), then fetch IMDb ID from movie details
+    import requests as _rq
+    params = {"api_key": apikey, "query": title, "include_adult": "false", "language": "en-US", "page": "1"}
+    if year is not None:
+        params["year"] = str(year)
+    try:
+        r = _rq.get(f"{TMDB_BASE}/search/movie", params=params, timeout=timeout)
+        r.raise_for_status()
+        data = r.json() or {}
+        results = data.get("results") or []
+        if not results:
+            return title, year, None
+        def rel_year(res) -> Optional[int]:
+            rd = res.get("release_date") or ""
+            return int(rd[:4]) if len(rd)>=4 and rd[:4].isdigit() else None
+        pool = results
+        if year is not None:
+            same = [res for res in results if rel_year(res) == year]
+            if same:
+                pool = same
+        best = max(pool, key=lambda res: float(res.get("popularity") or 0.0))
+        tmdb_id = best.get("id")
+        best_title = (best.get("title") or best.get("original_title") or title).strip()
+        best_year = rel_year(best) or year
+        imdb_id = None
+        if tmdb_id:
+            try:
+                r2 = _rq.get(f"{TMDB_BASE}/movie/{tmdb_id}", params={"api_key": apikey, "language": "en-US"}, timeout=timeout)
+                if r2.status_code == 200:
+                    dd = r2.json() or {}
+                    imdb_id = (dd.get("imdb_id") or "").strip() or None
+            except Exception:
+                pass
+        return best_title, best_year, imdb_id
+    except Exception:
+        return title, year, None
 
 
 QUALITY_RANK = {"720p": 1, "1080p": 2, "1440p": 2.5, "2160p": 3, "4k": 3, "uhd": 3}
@@ -227,7 +378,15 @@ def yts_lookup_from_csv(
     retries: int,
     slow_after: float,
     verbose: bool,
+    pre_match: str = "tmdb",
+    omdb_key: Optional[str] = None,
+    tmdb_key: Optional[str] = None,
 ) -> None:
+    # Fallback keys from environment/defaults
+    if not tmdb_key:
+        tmdb_key = TMDB_KEY_DEFAULT
+    if not omdb_key:
+        omdb_key = OMDB_KEY_DEFAULT or None
     rows = list(_iter_csv_rows(input_csv))
 
     # Determine current quality rank if available
@@ -237,11 +396,36 @@ def yts_lookup_from_csv(
         cur_ranks.append(_detect_current_quality(src))
 
     def task(row: Dict[str, str]) -> Tuple[Dict[str, str], Optional[YTSMovie]]:
-        title = (row.get("title") or row.get("title_guess") or row.get("folder_path") or "").split("/")[-1].strip()
-        year = row.get("year")
-        y = int(year) if year else None
-        movies = yts_search(title, y, timeout=timeout, retries=retries, slow_after=slow_after, verbose=verbose)
-        return row, _best_match(movies, title, y)
+        # Base title/year from CSV or folder path
+        base_title = (row.get("title") or row.get("title_guess") or row.get("folder_path") or "").split("/")[-1].strip()
+        base_year = row.get("year")
+        y = int(base_year) if base_year else None
+
+        # Optional pre-match using OMDb or IMDb Suggest to refine title/year and obtain IMDb ID
+        best_title, best_year, imdb_id = base_title, y, None
+        mode = (pre_match or "none").lower()
+        if mode in ("tmdb", "auto") and (tmdb_key or (mode == "tmdb")):
+            try:
+                t, yy, iid = _tmdb_search(base_title, y, apikey=(tmdb_key or ""))
+                best_title, best_year, imdb_id = t, yy, iid or imdb_id
+            except Exception:
+                pass
+        if mode in ("omdb", "auto") and (omdb_key or (mode == "omdb")) and not imdb_id:
+            t, yy, iid = _omdb_lookup(base_title, y, apikey=(omdb_key or ""))
+            best_title, best_year, imdb_id = t, yy, iid or imdb_id
+        if mode in ("imdb-suggest", "auto") and not imdb_id:
+            cands = _imdb_suggest(base_title)
+            t, yy, iid = _pick_best_imdb(cands, base_title, y)
+            if t and (iid or t.lower() != base_title.lower() or (yy and yy != y)):
+                best_title, best_year, imdb_id = t, yy, iid or imdb_id
+
+        movies = yts_search(best_title, best_year, timeout=timeout, retries=retries, slow_after=slow_after, verbose=verbose)
+        # If we have an IMDb ID, prefer exact imdb_code match
+        if imdb_id:
+            for m in movies:
+                if (m.imdb_code or "").lower() == str(imdb_id).lower():
+                    return row, m
+        return row, _best_match(movies, best_title, best_year)
 
     # Prepare direct in-file rewrite; always add enrichment columns
     add_cols = ["yts_title", "yts_year", "yts_url", "yts_quality_available", "yts_next_quality", "magnet"]

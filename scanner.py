@@ -6,6 +6,7 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Set, Tuple
+from keys import TMDB_API_KEY as TMDB_KEY_DEFAULT, OMDB_API_KEY as OMDB_KEY_DEFAULT
 
 
 GOOD_TITLE_RE = re.compile(r"^(?P<title>.+?)\s*\((?P<year>\d{4})\)")
@@ -161,6 +162,16 @@ def scan_library(
     ignores = set(d.lower() for d in ignore_dirs) if ignore_dirs else None
 
     lowq_rows: List[VideoEntry] = []
+    # Per-folder representative info for duplicate detection
+    @dataclass
+    class FolderMovie:
+        folder: Path
+        rep_video: Optional[Path]
+        size_bytes: int
+        title_guess: str
+        year_guess: Optional[int]
+
+    folder_movies: List[FolderMovie] = []
     lost_rows: List[Tuple[Path, str, int, int]] = []  # (folder, reason, file_count, video_count)
 
     # Track directories that contain any non-zero-length video directly
@@ -246,6 +257,19 @@ def scan_library(
                             VideoEntry(path=v, size_bytes=size, reason=";".join(reason_parts), tokens_matched=lowq)
                         )
 
+            # Collect representative video per movie-folder for duplicate detection
+            # Choose the largest video inside this folder
+            if vids:
+                try:
+                    rep = max(vids, key=lambda p: (p.exists() and p.stat().st_size) or 0)
+                    rep_size = rep.stat().st_size if rep.exists() else 0
+                except Exception:
+                    rep, rep_size = (vids[0], 0)
+                t_guess, y_guess = _parse_title_year_from_path(rep)
+                folder_movies.append(
+                    FolderMovie(folder=d, rep_video=rep, size_bytes=rep_size, title_guess=t_guess, year_guess=y_guess)
+                )
+
     # Aggregate low-quality entries by movie folder (one folder = one movie)
     by_folder: Dict[Path, VideoEntry] = {}
     tokens_by_folder: Dict[Path, Set[str]] = {}
@@ -258,6 +282,79 @@ def scan_library(
         current = by_folder.get(folder)
         if current is None or entry.size_bytes < current.size_bytes:
             by_folder[folder] = entry
+
+    # Normalize titles (IMDb Suggest/OMDb) for better duplicate grouping (automatic)
+    def _norm_title_key(title: str) -> str:
+        s = title or ""
+        s = re.sub(r"[._]+", " ", s)
+        s = re.sub(r"\((\d{4})\)", " ", s)
+        s = re.sub(r"[^\w\s]", " ", s)
+        s = re.sub(r"\s+", " ", s).strip().lower()
+        return s
+
+    # Import optional helpers from yts for normalization, guarded to avoid hard dependency
+    _imdb_suggest = None
+    _pick_best_imdb = None
+    _omdb_lookup = None
+    _tmdb_search = None
+    try:
+        from yts import _imdb_suggest as _imdb_suggest_fn, _pick_best_imdb as _pick_best_imdb_fn, _omdb_lookup as _omdb_lookup_fn, _tmdb_search as _tmdb_search_fn
+        _imdb_suggest = _imdb_suggest_fn
+        _pick_best_imdb = _pick_best_imdb_fn
+        _omdb_lookup = _omdb_lookup_fn
+        _tmdb_search = _tmdb_search_fn
+    except Exception:
+        _imdb_suggest = _pick_best_imdb = _omdb_lookup = _tmdb_search = None
+
+    def normalize_title_year(t: str, y: Optional[int]) -> Tuple[str, Optional[int]]:
+        # Prefer TMDb if available, else OMDb, else no-op
+        tmdb_key = TMDB_KEY_DEFAULT
+        if tmdb_key and _tmdb_search is not None:
+            try:
+                t2, y2, _iid = _tmdb_search(t, y, apikey=tmdb_key, timeout=3.0)
+                if t2:
+                    return t2, y2
+            except Exception:
+                pass
+        omdb_key = OMDB_KEY_DEFAULT
+        if omdb_key and _omdb_lookup is not None:
+            try:
+                t2, y2, _ = _omdb_lookup(t, y, apikey=omdb_key, timeout=3.0)
+                if t2:
+                    return t2, y2
+            except Exception:
+                pass
+        return t, y
+
+    # Phase 1: build raw groups by rough title parsing without API calls
+    raw_groups: Dict[Tuple[str, Optional[int]], List[FolderMovie]] = {}
+    for fm in folder_movies:
+        key = (_norm_title_key(fm.title_guess), fm.year_guess)
+        raw_groups.setdefault(key, []).append(fm)
+
+    # Phase 2: for groups with 2+ items, refine titles via TMDb/OMDb, then regroup
+    dup_groups: Dict[Tuple[str, Optional[int]], List[FolderMovie]] = {}
+    for key, items in raw_groups.items():
+        if len(items) < 2:
+            dup_groups[key] = items[:]  # keep as-is
+            continue
+        for fm in items:
+            t1, y1 = normalize_title_year(fm.title_guess, fm.year_guess)
+            nkey = (_norm_title_key(t1), y1)
+            dup_groups.setdefault(nkey, []).append(fm)
+
+    # Determine duplicates (groups with 2+ folders): flag non-best entries
+    dup_best_by_folder: Dict[Path, Tuple[Path, int, str, Optional[int]]] = {}
+    for key, items in dup_groups.items():
+        if len(items) < 2:
+            continue
+        best = max(items, key=lambda fm: fm.size_bytes)
+        for fm in items:
+            if fm.folder == best.folder:
+                continue
+            # Only flag if this folder's video is strictly smaller than best
+            if fm.size_bytes < best.size_bytes:
+                dup_best_by_folder[fm.folder] = (best.folder, best.size_bytes, key[0], key[1])
 
     # Write CSVs (low quality) with title first, size_mib second
     lowq_csv = out_dir / "low_quality_movies.csv"
@@ -296,3 +393,44 @@ def scan_library(
 
     print(f"Wrote {lowq_csv}")
     print(f"Wrote {lost_csv}")
+
+    # Write duplicates CSV (non-best entries only)
+    dups_csv = out_dir / "duplicate_movies.csv"
+    with dups_csv.open("w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow([
+            "title",
+            "year",
+            "folder_path",
+            "rep_video_path",
+            "size_bytes",
+            "size_mib",
+            "group_title_norm",
+            "group_year",
+            "best_folder_path",
+            "best_size_bytes",
+            "best_size_mib",
+        ])
+        for fm in folder_movies:
+            info = dup_best_by_folder.get(fm.folder)
+            if not info:
+                continue
+            best_folder, best_size, norm_title, norm_year = info
+            size_mib = fm.size_bytes / (1024 * 1024) if fm.size_bytes else 0.0
+            best_mib = best_size / (1024 * 1024) if best_size else 0.0
+            title = fm.title_guess
+            year_val = fm.year_guess if fm.year_guess is not None else (norm_year if norm_year is not None else None)
+            w.writerow([
+                title,
+                year_val if year_val is not None else "",
+                str(fm.folder),
+                str(fm.rep_video or ""),
+                fm.size_bytes,
+                f"{size_mib:.2f}",
+                norm_title,
+                norm_year if norm_year is not None else "",
+                str(best_folder),
+                best_size,
+                f"{best_mib:.2f}",
+            ])
+    print(f"Wrote {dups_csv}")

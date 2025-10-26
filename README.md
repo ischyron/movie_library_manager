@@ -13,6 +13,7 @@
 
 ## CLI
 - Scan: `python -m cli scan --root "/Volumes/Movies"` (writes CSVs to `data/` by default)
+  - Duplicate detection is automatic: titles are normalized via IMDb Suggest by default (OMDb if `OMDB_API_KEY` is set). Results are written to `data/duplicate_movies.csv`.
 - YTS (low‑quality): `python -m cli yts --from-csv data/low_quality_movies.csv --verbose`
 - In‑place update: `ml yts --from-csv data/low_quality_movies.csv --verbose` (appends YTS columns to the same CSV)
 - YTS (missing): `python -m cli yts --from-csv data/lost_movies.csv --lost --verbose`
@@ -23,6 +24,7 @@
 - `data/low_quality_movies.csv` — suspect low‑quality videos.
 - `data/lost_movies.csv` — leaf folders with no valid videos or only 0‑byte videos.
 - `data/yts_lowq.csv` and `data/yts_missing.csv` — YTS lookup results.
+- `data/duplicate_movies.csv` — detected duplicate titles; each row is a non-best copy with size and best-folder context.
 
 ## Heuristics (condensed)
 - Flags tiny files (< 700 MiB) unless a “good” token is present; flags explicit low‑quality tokens.

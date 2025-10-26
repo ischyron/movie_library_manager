@@ -5,7 +5,7 @@ Purpose
 
 Artifacts (git-managed)
 - All artifacts live in `data/` at the repo root.
-- Files: `low_quality_movies.csv`, `lost_movies.csv`, `yts_lowq.csv`, `yts_missing.csv`.
+- Files: `low_quality_movies.csv`, `lost_movies.csv`, `duplicate_movies.csv`, `yts_lowq.csv`, `yts_missing.csv`.
 
 Heuristics (scan)
 - Video extensions: mkv, mp4, avi, m4v, mov, wmv, mpg, mpeg, ts, m2ts, vob, iso
